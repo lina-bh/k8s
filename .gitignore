@@ -1,2 +1,5 @@
 .kube/
 .terraform/
+.env.local
+.talos/
+terraform.tfstate*
