@@ -33,6 +33,8 @@ RUN --mount=type=cache,destination=/var/cache \
     systemctl preset brew-update.timer && \
     systemctl preset brew-upgrade.timer
 
+RUN cp /usr/lib/os-release /etc/os-release
+
 COPY ./system_files/ /
 
 RUN bootc container lint
