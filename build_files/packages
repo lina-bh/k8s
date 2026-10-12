@@ -28,6 +28,7 @@ man-db
 nfs-utils
 nss-altfiles
 openssh-server
+postgresql18-server
 python3-packaging
 python3-pip
 qemu-char-spice
