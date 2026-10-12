@@ -35,6 +35,20 @@ RUN --mount=type=cache,destination=/var/cache \
 
 RUN rm /etc/os-release && cp /usr/lib/os-release /etc/os-release
 
+RUN --mount=type=cache,destination=/var/cache \
+    --mount=type=cache,destination=/var/lib/dnf \
+    --mount=type=tmpfs,destination=/var/log \
+    --mount=type=tmpfs,destination=/run \
+  dnf -y --setopt=keepcache=True install https://rpm.rancher.io/k3s/stable/common/centos/8/noarch/k3s-selinux-1.6-1.el8.noarch.rpm && \
+  curl -sfL https://get.k3s.io | \
+  INSTALL_K3S_VERSION=v1.37.1+k3s1 \
+  INSTALL_K3S_SKIP_ENABLE=true \
+  INSTALL_K3S_SKIP_START=true \
+  INSTALL_K3S_SYMLINK=force \
+  INSTALL_K3S_BIN_DIR=/usr/bin \
+  INSTALL_K3S_SELINUX_WARN=true \
+  sh -
+
 COPY ./system_files/ /
 
 RUN bootc container lint
