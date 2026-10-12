@@ -51,4 +51,4 @@ RUN --mount=type=cache,destination=/var/cache \
 
 COPY ./system_files/ /
 
-RUN bootc container lint
+RUN bootc container lint --no-truncate

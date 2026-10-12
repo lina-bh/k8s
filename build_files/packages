@@ -3,7 +3,6 @@ bash-completion
 btrfs-progs
 clevis-dracut
 cockpit-files
-cockpit-machines
 cockpit-networkmanager
 cockpit-podman
 cryptsetup
