@@ -1,7 +1,7 @@
 [Container]
 AddDevice=/dev/dri/:/dev/dri/
 GroupAdd=995
-Image=ghcr.io/jellyfin/jellyfin:12.1
+Image=ghcr.io/jellyfin/jellyfin:12.0
 Mount=type=bind,source=/srv/film,destination=/srv/film,relabel=shared,readonly=true
 Mount=type=bind,source=/srv/tv,destination=/srv/tv,relabel=shared,readonly=true
 Mount=type=volume,source=jellyfin-config.volume,destination=/config,chown=true

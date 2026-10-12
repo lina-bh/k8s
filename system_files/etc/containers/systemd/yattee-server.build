@@ -1,0 +1,8 @@
+[Build]
+SetWorkingDirectory=/var/local/yattee-server
+ImageTag=localhost/yattee-server:latest
+PodmanArgs=--no-hosts
+Pull=newer
+
+[Service]
+ExecStartPre=/usr/bin/git -C /var/local/yattee-server pull origin main

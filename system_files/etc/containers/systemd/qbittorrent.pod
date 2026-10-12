@@ -4,6 +4,7 @@ UserNS=auto:uidmapping=968:968:1,gidmapping=995:995:1
 Network=bridge
 PublishPort=127.0.0.1:8080:8080/tcp
 PublishPort=127.0.0.1:9696:9696/tcp
+PublishPort=127.0.0.1:8989:8989/tcp
 
 [Install]
 WantedBy=default.target

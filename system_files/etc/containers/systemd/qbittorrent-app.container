@@ -17,4 +17,4 @@ StopTimeout=20
 User=968:995
 
 [Service]
-ExecStartPost=/usr/bin/tailscale serve --bg --yes --http 8080 http://localhost:8080/
+ExecStartPost=/usr/bin/tailscale serve --bg --yes --http 80 --service svc:q http://localhost:8080/

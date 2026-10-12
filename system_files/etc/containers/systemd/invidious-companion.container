@@ -1,0 +1,8 @@
+[Container]
+Image=quay.io/invidious/invidious-companion:latest
+Network=invidious.network
+NetworkAlias=invidious-companion
+Volume=/var/tmp/youtubei.js
+ReadOnly=true
+UserNS=auto
+Environment=SERVER_SECRET_KEY=eeRei4thi6shaine

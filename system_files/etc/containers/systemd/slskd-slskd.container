@@ -20,4 +20,4 @@ Secret=slskd_pass,type=env,target=SLSKD_SLSK_PASSWORD
 User=969:995
 
 [Service]
-ExecStartPost=/usr/bin/tailscale serve --bg --yes --http 5030 unix:/run/slskd/slskd.sock
+ExecStartPost=/usr/bin/tailscale serve --bg --yes --http 80 --service svc:s unix:/run/slskd/slskd.sock

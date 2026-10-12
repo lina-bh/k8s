@@ -8,6 +8,7 @@ shares:
   - '.*/musiclibrary.db$'
   - '.*/.+\.(png|jpg)'
   - '.*/Phoebe Bridgers - Lost Weekend/'
+  - '.*/Protomartyr - Hotel Usona/'
   cache:
     storage_mode: disk
 directories:

@@ -1,0 +1,13 @@
+[Unit]
+Requires=gluetun-qbittorrent.service
+After=gluetun-qbittorrent.service
+
+[Container]
+Image=ghcr.io/home-operations/sonarr:4
+Pod=qbittorrent.pod
+ReadOnly=true
+Volume=sonarr.volume:/config:U
+User=99:99
+
+[Service]
+ExecStartPost=/usr/bin/tailscale serve --bg --yes --https 8989 http://localhost:8989

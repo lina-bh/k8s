@@ -13,4 +13,6 @@
   <UrlBase></UrlBase>
   <InstanceName>Prowlarr</InstanceName>
   <UpdateMechanism>Docker</UpdateMechanism>
+  <AllowedHosts></AllowedHosts>
+  <TrustedNetworks></TrustedNetworks>
 </Config>

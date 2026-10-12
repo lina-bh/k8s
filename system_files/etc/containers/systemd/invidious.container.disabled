@@ -1,0 +1,20 @@
+[Unit]
+Requires=postgres18.service
+Wants=invidious-companion.service
+
+[Container]
+Image=quay.io/invidious/invidious:latest
+Network=invidious.network
+Network=postgres18.network
+NetworkAlias=invidious
+ReadOnly=true
+UserNS=auto
+PublishPort=127.0.0.1:3000:3000/tcp
+Environment=INVIDIOUS_CONFIG='{"db":{"user":"kemal","password":"kemal","host":"postgres18","port":5432,"dbname":"invidious"},"check_tables":true,"invidious_companion":[{"private_url": "http://invidious-companion:8282/companion"}],"invidious_companion_key":"eeRei4thi6shaine","external_port":80,"domain":"iv.lamancha-alhena.ts.net","https_only":false,"hsts":false,"disable_proxy":["local","livestream"],"popular_enabled":false,"captcha_enabled":false,"enable_user_notifications":false,"hmac_key":"sha6pibahp1Aiwoojoez"}'
+
+[Service]
+Restart=on-failure
+ExecStartPost=/usr/bin/tailscale serve --bg --yes --https 443 --service svc:iv http://localhost:3000/
+
+[Install]
+WantedBy=default.target
