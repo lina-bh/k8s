@@ -1,0 +1,26 @@
+---
+alsologtostderr: true
+flannel-backend: "none"
+egress-selector-mode: "disabled"
+disable-cloud-controller: true
+disable-network-policy: true
+disable-helm-controller: true
+selinux: true
+write-kubeconfig-mode: "0644"
+kube-controller-arg:
+- flex-volume-plugin-dir=/etc/kubernetes/kubelet-plugins/volume/exec
+kubelet-arg:
+- allowed-unsafe-sysctls=net.ipv6.conf.all.disable_ipv6
+disable:
+- servicelb
+- traefik
+- local-storage
+- metrics-server
+- gateway-api-crd
+tls-san:
+- melee
+- melee.lamancha-alhena.ts.net
+- "100.121.143.86"
+- "fd7a:115c:a1e0::ed01:8f96"
+cluster-cidr: 10.244.0.0/16
+service-cidr: 10.96.0.0/12
