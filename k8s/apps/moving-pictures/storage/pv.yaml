@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: moving-pictures
+spec:
+  local:
+    path: /var/mnt/moving_pictures
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchFields:
+        - key: metadata.name
+          operator: In
+          values: ["melee"]
