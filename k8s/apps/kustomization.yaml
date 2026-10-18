@@ -3,3 +3,4 @@ resources:
 - tailscale
 - kube-system
 - moving-pictures
+- local-path-storage

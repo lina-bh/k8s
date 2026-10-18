@@ -1,0 +1,5 @@
+---
+resources:
+- local-path-provisioner
+- namespace.yaml
+namespace: local-path-storage
