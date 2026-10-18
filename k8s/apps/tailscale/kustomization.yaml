@@ -1,0 +1,5 @@
+---
+namespace: tailscale
+resources:
+- tailscale-operator
+- namespace.yaml

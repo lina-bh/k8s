@@ -1,0 +1,29 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: operator
+spec:
+  dependsOn: []
+  interval: 10m
+  path: ./k8s/apps/tailscale/tailscale-operator/operator
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: configs
+spec:
+  dependsOn:
+  - name: operator
+  interval: 10m
+  path: ./k8s/apps/tailscale/tailscale-operator/configs
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true

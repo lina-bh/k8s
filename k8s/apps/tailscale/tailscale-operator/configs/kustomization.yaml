@@ -1,0 +1,4 @@
+---
+resources:
+- proxyclass.yaml
+- proxygroup.yaml

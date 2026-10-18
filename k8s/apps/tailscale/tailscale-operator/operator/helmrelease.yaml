@@ -1,0 +1,37 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: tailscale-operator
+spec:
+  interval: 24h
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 1.104.1
+    digest: sha256:fad7fc14bfd3305d905ef33a3dc977cceb8536224f283edf8a90d01c34ba560e
+  url: oci://ghcr.io/home-operations/charts-mirror/tailscale-operator
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tailscale-operator
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: tailscale-operator
+  interval: 24h
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
+  values:
+    operatorConfig:
+      hostname: "melee-k3s"
+      image:
+        repository: docker.io/tailscale/k8s-operator
+        pullPolicy: IfNotPresent
+    proxyConfig:
+      image:
+        repository: ghcr.io/tailscale/tailscale
