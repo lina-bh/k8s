@@ -10,8 +10,9 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    namespace: flux-system
     name: flux-system
+    namespace: flux-system
+  targetNamespace: tailscale
   wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -26,6 +27,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    namespace: flux-system
     name: flux-system
+    namespace: flux-system
+  targetNamespace: tailscale
   wait: true
