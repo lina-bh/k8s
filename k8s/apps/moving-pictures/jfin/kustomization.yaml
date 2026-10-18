@@ -1,0 +1,10 @@
+---
+labels:
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/name: jellyfin
+namePrefix: jfin-
+resources:
+- ss.yaml
+- svc.yaml
+- ingress.yaml
