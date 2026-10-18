@@ -1,0 +1,26 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: intel-gpu-plugin-ds
+spec:
+  dependsOn:
+  - name: intel-node-feature-rules
+  interval: 24h
+  patches:
+  - patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/securityContext/seLinuxOptions/type
+        value: spc_t
+    target:
+      kind: DaemonSet
+      name: intel-gpu-plugin
+  path: "./deployments/gpu_plugin/base"
+  prune: true
+  retryInterval: 2m
+  sourceRef:
+    kind: GitRepository
+    name: intel-device-plugins-for-kubernetes
+  targetNamespace: kube-system
+  timeout: 15m
+  wait: true

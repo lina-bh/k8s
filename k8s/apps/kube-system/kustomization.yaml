@@ -2,3 +2,4 @@
 namespace: kube-system
 resources:
 - node-feature-discovery
+- intel-gpu-plugin

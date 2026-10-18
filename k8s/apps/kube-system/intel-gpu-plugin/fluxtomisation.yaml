@@ -1,0 +1,16 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: intel-gpu-plugin
+spec:
+  dependsOn: []
+  interval: 1h
+  path: ./k8s/apps/kube-system/intel-gpu-plugin/base
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  timeout: 15m
+  wait: true
