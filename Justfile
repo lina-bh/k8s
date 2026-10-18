@@ -6,3 +6,9 @@ kubeconfig:
 
 reconcile:
 	flux --namespace=flux-system reconcile source git flux-system
+
+inflate:
+	flate build ks --path=k8s/clusters/melee
+
+diff:
+	flate diff ks --path=k8s/clusters/melee
