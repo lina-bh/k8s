@@ -2,6 +2,7 @@
 resources:
 - ss.yaml
 - svc.yaml
+- ingress.yaml
 namePrefix: nd-
 configMapGenerator:
 - name: config
