@@ -1,8 +1,0 @@
-[Pod]
-ServiceName=jellyfin
-Network=private
-UserNS=auto:gidmapping=995:995:1
-PodmanArgs=--uts=host
-
-[Install]
-WantedBy=default.target

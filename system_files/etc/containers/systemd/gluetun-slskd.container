@@ -1,5 +1,0 @@
-[Container]
-ContainerName=gluetun-slskd
-Environment=FIREWALL_VPN_INPUT_PORTS=35715
-Environment=SERVER_COUNTRIES="United Kingdom"
-Pod=slskd.pod

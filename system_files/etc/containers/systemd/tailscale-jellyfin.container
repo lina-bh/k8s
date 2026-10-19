@@ -1,8 +1,0 @@
-[Container]
-Environment=TS_SERVE_CONFIG=/serve.json
-Environment=TS_HOSTNAME=j
-Mount=type=volume,source=tailscale-jellyfin.volume,destination=/var/lib/tailscale,chown=true
-Mount=type=bind,source=./serve/jellyfin.json,destination=/serve.json,readonly=true,relabel=private
-Secret=tskey-auth,type=env,target=TS_AUTHKEY
-Pod=jellyfin.pod
-User=99:99

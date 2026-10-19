@@ -1,5 +1,0 @@
-[Container]
-ContainerName=gluetun-qbittorrent
-Environment=FIREWALL_VPN_INPUT_PORTS=14148
-Environment=SERVER_COUNTRIES="Austria,Belgium,Czech Republic,Germany,Spain,Ireland,Latvia,Estonia,Norway,Romania,Serbia,Sweden"
-Pod=qbittorrent.pod
