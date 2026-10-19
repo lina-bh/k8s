@@ -17,8 +17,9 @@ spec:
   chart:
     spec:
       chart: ./charts/kube-network-policies
-      kind: GitRepository
-      name: kube-network-policies
+      sourceRef:
+        kind: GitRepository
+        name: kube-network-policies
   interval: 24h
   install:
     crds: CreateReplace
