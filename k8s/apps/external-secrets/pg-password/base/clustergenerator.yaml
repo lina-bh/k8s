@@ -9,3 +9,4 @@ spec:
     passwordSpec:
       length: 64
       symbols: 0
+      allowRepeat: true
