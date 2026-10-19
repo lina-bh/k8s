@@ -34,6 +34,8 @@ spec:
         - name: config
           mountPath: /data/navidrome.toml
           subPath: navidrome.toml
+        - name: tmp
+          mountPath: /tmp
         ports:
         - containerPort: 4533
       hostUsers: true
@@ -46,6 +48,8 @@ spec:
       - name: config
         configMap:
           name: config
+      - name: tmp
+        emptyDir: {}
   volumeClaimTemplates:
   - metadata:
       name: data
