@@ -25,29 +25,23 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /data
-        - name: cache
-          mountPath: /data/cache
         - name: music
           mountPath: /var/mnt/music/Music
           subPath: Music
           readOnly: true
-        - name: config
-          mountPath: /data/navidrome.toml
-          subPath: navidrome.toml
         - name: tmp
           mountPath: /tmp
         ports:
         - containerPort: 4533
+        envFrom:
+        - configMapRef:
+            name: env
+            optional: false
       hostUsers: true
       volumes:
-      - name: cache
-        emptyDir: {}
       - name: music
         persistentVolumeClaim:
           claimName: music
-      - name: config
-        configMap:
-          name: config
       - name: tmp
         emptyDir: {}
   volumeClaimTemplates:

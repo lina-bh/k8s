@@ -5,9 +5,9 @@ resources:
 - ingress.yaml
 namePrefix: nd-
 configMapGenerator:
-- name: config
-  files:
-  - navidrome.toml
+- name: env
+  envs:
+  - env.sh
 labels:
 - includeSelectors: true
   pairs:
