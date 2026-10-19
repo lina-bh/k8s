@@ -27,3 +27,16 @@ spec:
     crds: CreateReplace
   values:
     adminNetworkPolicy: false
+  targetNamespace: kube-system
+  postRenderers:
+  - kustomize:
+      patches:
+      - patch: |-
+          - op: add
+            path: /spec/template/spec/containers/0/args/-
+            value: --disable-nri
+        target:
+          group: apps
+          version: v1
+          kind: DaemonSet
+          name: kube-network-policies
