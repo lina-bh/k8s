@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sidecar
+spec:
+  template:
+    spec:
+      dnsConfig:
+        nameservers:
+        - 127.0.0.1
+      dnsPolicy: None
+      initContainers:
+      - envFrom:
+        - configMapRef:
+            name: gluetun-config
+        - secretRef:
+            name: gluetun
+        - configMapRef:
+            name: gluetun-overrides
+        image: ghcr.io/qdm12/gluetun:latest
+        imagePullPolicy: Always
+        lifecycle:
+          stopSignal: SIGKILL
+        name: gluetun
+        resources:
+          limits:
+            devic.es/tun: 1
+        restartPolicy: Always
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+            drop:
+            - ALL
+          runAsUser: 0
+        startupProbe:
+          failureThreshold: 24
+          httpGet:
+            port: 9999
+          periodSeconds: 5
+      os:
+        name: linux
