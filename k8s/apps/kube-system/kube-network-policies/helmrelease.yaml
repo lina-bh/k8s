@@ -6,7 +6,7 @@ metadata:
 spec:
   interval: 24h
   ref:
-    tag: v1.1.2
+    commit: d33caa334951debb10babc3238eb3eea4edc1eda
   url: https://github.com/kubernetes-sigs/kube-network-policies.git
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -25,3 +25,4 @@ spec:
     crds: CreateReplace
   upgrade:
     crds: CreateReplace
+  values:
