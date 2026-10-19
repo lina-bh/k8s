@@ -1,0 +1,30 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: inspektor-gadget
+spec:
+  interval: 24h
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 0.57.0
+    digest: sha256:828bcb15bf7470fa4868256a9360f8c5da0ec0664315a109543e4cdb1ebcfb8b
+  url: oci://ghcr.io/inspektor-gadget/inspektor-gadget/charts/gadget
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: inspektor-gadget
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: inspektor-gadget
+  interval: 24h
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
+  values: {}
+  targetNamespace: gadget
