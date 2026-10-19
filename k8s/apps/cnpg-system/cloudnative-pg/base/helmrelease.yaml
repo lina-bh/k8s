@@ -29,4 +29,4 @@ spec:
     crds: CreateReplace
   values:
     monitoring:
-      podMonitorEnabled: true
+      podMonitorEnabled: false
