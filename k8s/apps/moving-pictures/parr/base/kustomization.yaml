@@ -1,0 +1,16 @@
+---
+resources:
+- role.yaml
+- database_main.yaml
+- dep.yaml
+- svc.yaml
+- ingress.yaml
+labels:
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/name: parr
+namePrefix: parr-
+configMapGenerator:
+- name: tor
+  files:
+  - torrc

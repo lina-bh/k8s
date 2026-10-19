@@ -5,3 +5,4 @@ resources:
 - storage
 - jfin
 - postgres/ks.yaml
+- parr/ks.yaml

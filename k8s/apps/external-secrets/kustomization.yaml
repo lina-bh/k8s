@@ -3,3 +3,4 @@ namespace: external-secrets
 resources:
 - external-secrets-operator/ks.yaml
 - namespace.yaml
+- pg-password/ks.yaml

@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  labels:
+    app.kubernetes.io/component: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: app
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: app
+    spec:
+      automountServiceAccountToken: false
+      containers:
+      - env:
+        - name: PROWLARR__AUTH__METHOD
+          value: External
+        - name: PROWLARR__POSTGRES__USER
+          valueFrom:
+            secretKeyRef:
+              name: role
+              key: username
+        - name: PROWLARR__POSTGRES__HOST
+          value: pg-rw
+        - name: PROWLARR__POSTGRES__PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: role
+              key: password
+        - name: PROWLARR__POSTGRES__MAINDB
+          value: parr
+        - name: PROWLARR__LOG__DBENABLED
+          value: "false"
+        image: ghcr.io/home-operations/prowlarr:2.6.5.5623@sha256:6152751c3ea2e7751564f5952173d5e83eed0e09f3fabd2cb6bdb58690c39e2f
+        imagePullPolicy: IfNotPresent
+        name: app
+        ports:
+        - containerPort: 9696
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsGroup: 65534
+          runAsNonRoot: true
+          runAsUser: 65534
+      hostUsers: false
