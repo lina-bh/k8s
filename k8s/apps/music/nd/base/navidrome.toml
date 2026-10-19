@@ -1,0 +1,17 @@
+DefaultTheme = "Spotify-ish"
+EnableCoverAnimation = false
+EnableInsightsCollector = false
+EnableSharing = true
+EnableTranscodingConfig = true
+UILoginBackgroundUrl = ""
+LogLevel = "debug"
+
+[ExtAuth]
+UserHeader = "Tailscale-User-Login"
+TrustedSources = "127.0.0.1/8,100.64.0.0/10,10.244.0.0/16"
+
+[Scanner]
+PurgeMissing = "never"
+
+[Subsonic]
+AppendAlbumVersion = false

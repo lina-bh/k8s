@@ -1,0 +1,31 @@
+---
+resources:
+- pv.yaml
+- pvc.yaml
+- config.yaml
+patches:
+- target:
+    version: v1
+    kind: PersistentVolume|PersistentVolumeClaim
+  patch: |
+    - op: replace
+      path: /spec/accessModes
+      value: [ReadWriteOnce]
+replacements:
+- source:
+    kind: ConfigMap
+    name: config
+    fieldPath: data.storage
+  targets:
+  - select:
+      kind: PersistentVolume
+    fieldPaths:
+    - spec.capacity.storage
+    options:
+      create: true
+  - select:
+      kind: PersistentVolumeClaim
+    fieldPaths:
+    - spec.resources.requests.storage
+    options:
+      create: true

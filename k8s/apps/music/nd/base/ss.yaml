@@ -1,0 +1,57 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: app
+spec:
+  replicas: 1
+  serviceName: app
+  template:
+    spec:
+      automountServiceAccountToken: false
+      containers:
+      - name: app
+        image: ghcr.io/navidrome/navidrome:0.64.2@sha256:38dc2727bfcfd5ede290f8ada114fc90368146f265ae4701ddddbcbe2a44ee52
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsGroup: 971
+          runAsNonRoot: true
+          runAsUser: 971
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: cache
+          mountPath: /data/cache
+        - name: music
+          mountPath: /var/mnt/music/Music
+          subPath: Music
+          readOnly: true
+        - name: config
+          mountPath: /data/navidrome.toml
+          subPath: navidrome.toml
+        ports:
+        - containerPort: 4533
+      hostUsers: true
+      volumes:
+      - name: cache
+        emptyDir: {}
+      - name: music
+        persistentVolumeClaim:
+          claimName: music
+      - name: config
+        configMap:
+          name: config
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi

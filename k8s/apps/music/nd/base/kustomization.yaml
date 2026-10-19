@@ -1,0 +1,13 @@
+---
+resources:
+- ss.yaml
+- svc.yaml
+namePrefix: nd-
+configMapGenerator:
+- name: config
+  files:
+  - navidrome.toml
+labels:
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/app: nd
