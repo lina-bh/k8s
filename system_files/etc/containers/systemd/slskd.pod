@@ -1,6 +1,0 @@
-[Pod]
-ServiceName=slskd
-UserNS=auto:uidmapping=969:969:1,gidmapping=995:995:1,gidmapping=965:965:1
-
-[Install]
-WantedBy=default.target
