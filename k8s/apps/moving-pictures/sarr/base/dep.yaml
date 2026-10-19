@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+spec:
+  replicas: 1
+  template:
+    spec:
+      automountServiceAccountToken: false
+      containers:
+      - env:
+        - name: SONARR__AUTH__METHOD
+          value: External
+        - name: SONARR__LOG__DBENABLED
+          value: "false"
+        - name: SONARR__POSTGRES__HOST
+          value: pg-rw
+        - name: SONARR__POSTGRES__MAINDB
+          value: sarr
+        - name: SONARR__POSTGRES__USER
+          valueFrom:
+            secretKeyRef:
+              name: sarr-role
+              key: username
+        - name: SONARR__POSTGRES__PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sarr-role
+              key: password
+        image: ghcr.io/home-operations/sonarr:5.0.0.2569@sha256:b699df6b4b10e71ce23fb6fd8944653171f49164f79020cb0ea09e46b51b0517
+        imagePullPolicy: IfNotPresent
+        name: app
+        ports:
+        - containerPort: 8989
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          seLinuxOptions:
+            level: null
+          readOnlyRootFilesystem: true
+          runAsGroup: 995
+          runAsNonRoot: true
+          runAsUser: 962
+        volumeMounts:
+        - mountPath: /var/mnt/moving_pictures
+          name: moving-pictures
+      hostUsers: true
+      volumes:
+      - name: moving-pictures
+        persistentVolumeClaim:
+          claimName: moving-pictures
+      securityContext:
+        fsGroup: 995

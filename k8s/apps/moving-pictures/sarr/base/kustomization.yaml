@@ -1,0 +1,12 @@
+---
+labels:
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/name: sarr
+namePrefix: sarr-
+resources:
+- dep.yaml
+- svc.yaml
+- ingress.yaml
+- role.yaml
+- db.yaml

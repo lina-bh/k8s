@@ -1,0 +1,32 @@
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: role
+spec:
+  refreshPolicy: CreatedOnce
+  dataFrom:
+  - sourceRef:
+      generatorRef:
+        kind: ClusterGenerator
+        name: pg-password
+  target:
+    name: sarr-role
+    deletionPolicy: Delete
+    template:
+      type: kubernetes.io/basic-auth
+      data:
+        username: sarr
+        password: "{{ .password }}"
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: role
+spec:
+  name: sarr
+  login: true
+  cluster:
+    name: pg
+  passwordSecret:
+    name: sarr-role

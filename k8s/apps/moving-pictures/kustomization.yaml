@@ -6,3 +6,4 @@ resources:
 - jfin
 - postgres/ks.yaml
 - parr/ks.yaml
+- sarr/ks.yaml
