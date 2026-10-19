@@ -26,6 +26,7 @@ metadata:
 spec:
   name: parr
   login: true
-  cluster: pg
+  cluster:
+    name: pg
   passwordSecret:
     name: parr-role
