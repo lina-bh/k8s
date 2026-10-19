@@ -23,14 +23,14 @@ spec:
         - name: PROWLARR__POSTGRES__USER
           valueFrom:
             secretKeyRef:
-              name: role
+              name: parr-role
               key: username
         - name: PROWLARR__POSTGRES__HOST
           value: pg-rw
         - name: PROWLARR__POSTGRES__PASSWORD
           valueFrom:
             secretKeyRef:
-              name: role
+              name: parr-role
               key: password
         - name: PROWLARR__POSTGRES__MAINDB
           value: parr
