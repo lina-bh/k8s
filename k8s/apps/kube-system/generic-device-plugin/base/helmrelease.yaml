@@ -1,0 +1,57 @@
+---
+apiVersion: "source.toolkit.fluxcd.io/v1"
+kind: OCIRepository
+metadata:
+  name: generic-device-plugin
+spec:
+  interval: 24h
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 0.1.2
+  url: oci://ghcr.io/squat/charts/generic-device-plugin
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: generic-device-plugin
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: generic-device-plugin
+  install:
+    crds: CreateReplace
+  interval: "24h"
+  postRenderers:
+  - kustomize:
+      patches:
+      - patch: |
+          - op: replace
+            path: /spec/template/spec/containers/0/args
+            value:
+            - --config=/config/config.yaml
+          - op: add
+            path: /spec/template/spec/containers/0/volumeMounts/-
+            value:
+              name: config
+              mountPath: /config
+          - op: add
+            path: /spec/template/spec/volumes/-
+            value:
+              name: config
+              configMap:
+                name: generic-device-plugin
+                optional: false
+        target:
+          kind: DaemonSet
+          version: v1
+          group: apps
+  upgrade:
+    crds: CreateReplace
+  values:
+    deployPodMonitor: false
+    image:
+      repository: ghcr.io/squat/generic-device-plugin
+      tag: 0.2.0@sha256:66c8d5c270eb2b721f1064c549b9b7898152a6d2f0163380a5d37dc7636c20ff
+      pullPolicy: IfNotPresent
