@@ -4,3 +4,4 @@ resources:
 - kube-system
 - moving-pictures
 - local-path-storage
+- cnpg-system
