@@ -4,3 +4,4 @@ resources:
 - namespace.yaml
 - storage
 - jfin
+- postgres/ks.yaml
