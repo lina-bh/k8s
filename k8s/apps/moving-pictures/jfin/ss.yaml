@@ -38,6 +38,8 @@ spec:
           name: moving-pictures
           readOnly: true
           subPath: tv
+        - mountPath: /tmp
+          name: tmp
       hostUsers: true
       securityContext:
         supplementalGroups:
@@ -45,6 +47,8 @@ spec:
       volumes:
       - emptyDir: {}
         name: cache
+      - name: tmp
+        emptyDir: {}
       - name: moving-pictures
         persistentVolumeClaim:
           claimName: moving-pictures
