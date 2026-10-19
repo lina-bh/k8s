@@ -39,7 +39,7 @@ spec:
             drop:
             - ALL
           seLinuxOptions:
-            level: null
+            level: s0
           readOnlyRootFilesystem: true
           runAsGroup: 995
           runAsNonRoot: true
