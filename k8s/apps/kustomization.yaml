@@ -5,3 +5,4 @@ resources:
 - moving-pictures
 - local-path-storage
 - cnpg-system
+- monitoring
