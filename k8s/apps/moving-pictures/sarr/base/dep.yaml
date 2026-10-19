@@ -47,10 +47,14 @@ spec:
         volumeMounts:
         - mountPath: /var/mnt/moving_pictures
           name: moving-pictures
+        - mountPath: /config
+          name: config
       hostUsers: true
       volumes:
       - name: moving-pictures
         persistentVolumeClaim:
           claimName: moving-pictures
+      - name: config
+        emptyDir: {}
       securityContext:
         fsGroup: 995
