@@ -5,6 +5,8 @@ resources:
 - dep.yaml
 - svc.yaml
 - ingress.yaml
+- dep_tor.yaml
+- svc_tor.yaml
 labels:
 - includeSelectors: true
   pairs:
