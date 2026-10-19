@@ -1,0 +1,26 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: kube-network-policies
+spec:
+  interval: 24h
+  ref:
+    tag: v1.1.2
+  url: https://github.com/kubernetes-sigs/kube-network-policies.git
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-network-policies
+spec:
+  chart:
+    spec:
+      chart: ./charts/kube-network-policies
+      kind: GitRepository
+      name: kube-network-policies
+  interval: 24h
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
