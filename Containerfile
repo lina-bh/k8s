@@ -35,19 +35,22 @@ RUN --mount=type=cache,destination=/var/cache \
 
 RUN rm /etc/os-release && cp /usr/lib/os-release /etc/os-release
 
+# renovate: datasource=github-releases depName=k3s-io/k3s versioning=regex:^v(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)\+k3s(?<build>\d+)$
+ARG INSTALL_K3S_VERSION=v1.37.1+k3s1
+
 RUN --mount=type=cache,destination=/var/cache \
     --mount=type=cache,destination=/var/lib/dnf \
     --mount=type=tmpfs,destination=/var/log \
     --mount=type=tmpfs,destination=/run \
-  dnf -y --setopt=keepcache=True install https://rpm.rancher.io/k3s/stable/common/centos/8/noarch/k3s-selinux-1.6-1.el8.noarch.rpm && \
+  dnf5 -y config-manager setopt keepcache=True && \
   curl -sfL https://get.k3s.io | \
-  INSTALL_K3S_VERSION=v1.37.1+k3s1 \
   INSTALL_K3S_SKIP_ENABLE=true \
   INSTALL_K3S_SKIP_START=true \
   INSTALL_K3S_SYMLINK=force \
   INSTALL_K3S_BIN_DIR=/usr/bin \
   INSTALL_K3S_SELINUX_WARN=true \
-  sh -
+  sh - && \
+  dnf5 -y config-manager setopt keepcache=False rancher-k3s-common-stable.enabled=0
 
 COPY ./system_files/ /
 

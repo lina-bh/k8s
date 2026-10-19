@@ -1,7 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    "helpers:pinGitHubActionDigests",
+    "customManagers:dockerfileVersions"
   ],
   "packageRules": [
     {
@@ -25,36 +27,33 @@
       ],
       "automerge": true,
       "automergeType": "branch",
-      "ignoreTests": true
-    },
-    {
-      "matchDatasources": [
-        "github-actions"
-      ],
+      "ignoreTests": true,
       "pinDigests": true
     },
     {
       "matchDatasources": [
-        "docker"
-      ],
-      "pinDigests": false
-    },
-    {
-      "matchDatasources": [
-        "docker"
+        "github-releases"
       ],
       "matchPackageNames": [
-        "ghcr.io/ublue-os/brew",
-        "ghcr.io/slskd/slskd",
-        "quay.io/cockpit/ws"
+        "k3s-io/k3s"
       ],
-      "pinDigests": true
+      "separateMultipleMinor": true
     }
   ],
   "prHourlyLimit": 0,
   "quadlet": {
     "managerFilePatterns": [
       "/.+\\.container.d/.+\\.conf$/"
+    ]
+  },
+  "flux": {
+    "managerFilePatterns": [
+      "/^k8s/apps/.+\\.ya?ml$/"
+    ]
+  },
+  "kubernetes": {
+    "managerFilePatterns": [
+      "/^k8s/apps/.+\\.ya?ml$/"
     ]
   }
 }
