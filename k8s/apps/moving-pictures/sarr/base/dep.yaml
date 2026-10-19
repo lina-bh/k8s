@@ -55,6 +55,7 @@ spec:
         persistentVolumeClaim:
           claimName: moving-pictures
       - name: config
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: config
       securityContext:
         fsGroup: 995

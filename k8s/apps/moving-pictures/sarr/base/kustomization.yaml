@@ -10,3 +10,4 @@ resources:
 - ingress.yaml
 - role.yaml
 - db.yaml
+- pvc.yaml
