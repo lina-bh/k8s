@@ -7,3 +7,4 @@ resources:
 - postgres/ks.yaml
 - parr/ks.yaml
 - sarr/ks.yaml
+- qbt/ks.yaml
