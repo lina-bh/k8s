@@ -6,4 +6,6 @@ metadata:
 spec:
   ports:
   - port: 80
-    targetPort: 4533
+    targetPort: http
+  selector:
+    app.kubernetes.io/app: nd

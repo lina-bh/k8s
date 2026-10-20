@@ -6,7 +6,13 @@ metadata:
 spec:
   replicas: 1
   serviceName: app
+  selector:
+    matchLabels:
+      app.kubernetes.io/app: nd
   template:
+    metadata:
+      labels:
+        app.kubernetes.io/app: nd
     spec:
       automountServiceAccountToken: false
       containers:
@@ -32,7 +38,8 @@ spec:
         - name: tmp
           mountPath: /tmp
         ports:
-        - containerPort: 4533
+        - name: http
+          containerPort: 4533
         envFrom:
         - configMapRef:
             name: env
@@ -47,6 +54,8 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: data
+      labels:
+        app.kubernetes.io/app: nd
     spec:
       accessModes:
       - ReadWriteOnce
