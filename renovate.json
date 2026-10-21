@@ -3,7 +3,8 @@
   "extends": [
     "config:recommended",
     "helpers:pinGitHubActionDigests",
-    "customManagers:dockerfileVersions"
+    "customManagers:dockerfileVersions",
+    "docker:pinDigests"
   ],
   "packageRules": [
     {
@@ -19,16 +20,11 @@
       "matchDatasources": [
         "docker"
       ],
-      "matchPackageNames": [
-        "ghcr.io/ublue-os/brew"
-      ],
       "matchUpdateTypes": [
-        "digest"
+        "digest",
+        "pinDigest"
       ],
-      "automerge": true,
-      "automergeType": "branch",
-      "ignoreTests": true,
-      "pinDigests": true
+      "automerge": true
     },
     {
       "matchDatasources": [
@@ -38,9 +34,23 @@
         "k3s-io/k3s"
       ],
       "separateMultipleMinor": true
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/home-operations/sonarr"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "automerge": true
     }
   ],
   "prHourlyLimit": 0,
+  "automergeType": "branch",
+  "ignoreTests": true,
   "quadlet": {
     "managerFilePatterns": [
       "/.+\\.container.d/.+\\.conf$/"
