@@ -28,7 +28,7 @@ spec:
             secretKeyRef:
               name: sarr-role
               key: password
-        image: ghcr.io/home-operations/sonarr:5.0.0.2701@sha256:2b7958c60a6423bc7be65edf0943a53a8d3da2e71d3b2cb8a503e5cacd693a23
+        image: ghcr.io/home-operations/sonarr:5.0.0.2742@sha256:461e64f41e45e95637aae49d660b2116f0f8f43b0f1df86224a0e5f8a1b9f339
         imagePullPolicy: IfNotPresent
         name: app
         ports:
