@@ -32,7 +32,8 @@ spec:
         imagePullPolicy: IfNotPresent
         name: app
         ports:
-        - containerPort: 8989
+        - name: http
+          containerPort: 8989
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -49,6 +50,10 @@ spec:
           name: moving-pictures
         - mountPath: /config
           name: config
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: http
       hostUsers: true
       volumes:
       - name: moving-pictures
