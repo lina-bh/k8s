@@ -19,7 +19,7 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-      - image: ghcr.io/lina-bh/tor:latest
+      - image: ghcr.io/lina-bh/tor:latest@sha256:0f3da3d7dc78c7d2ff37f64fac81cec923b0edaea50bf257bcc99a8aa6a5f857
         imagePullPolicy: Always
         lifecycle:
           stopSignal: SIGINT

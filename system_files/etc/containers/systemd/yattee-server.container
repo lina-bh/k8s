@@ -1,7 +1,7 @@
 [Container]
 Environment=ADMIN_USERNAME=admin
 Environment=ADMIN_PASSWORD=admin
-Image=docker.io/yattee/yattee-server:latest
+Image=docker.io/yattee/yattee-server:latest@sha256:4fa5f3449f5c2dce20beb636e11f8f1b0878008052d69b5b82c981cab1d490ca
 Mount=type=bind,source=/var/lib/yattee-server,destination=/app/data,relabel=private
 Network=bridge
 PublishPort=127.0.0.1:8085:8085/tcp

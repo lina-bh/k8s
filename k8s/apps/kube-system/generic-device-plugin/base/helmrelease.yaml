@@ -10,6 +10,7 @@ spec:
     operation: copy
   ref:
     tag: 0.2.0
+    digest: sha256:80ba2135970329817f446f0430c69d792169f11665142e1c8a8200885b4c4685
   url: oci://ghcr.io/squat/charts/generic-device-plugin
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
