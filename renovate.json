@@ -46,6 +46,19 @@
         "patch"
       ],
       "automerge": true
+    },
+    {
+      "matchDatasources": [
+        "helm"
+      ],
+      "matchPackageNames": [
+        "tailscale-operator"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "minimumReleaseAge": "1 day",
+      "automerge": true
     }
   ],
   "prHourlyLimit": 0,
