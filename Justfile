@@ -10,6 +10,9 @@ reconcile:
 inflate:
 	flate build ks --path=k8s/clusters/melee
 
+build:
+	flate build all --path=k8s/clusters/melee
+
 diff *args:
 	flate diff all --path=k8s/clusters/melee {{ args }}
 
