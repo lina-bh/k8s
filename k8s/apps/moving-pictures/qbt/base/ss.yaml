@@ -12,7 +12,7 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-      - image: ghcr.io/home-operations/qbittorrent:5.3.0@sha256:4e3f801cee7d2449c8df4a222ece0ab745153d92899870cde06b43ca9cbca468
+      - image: ghcr.io/home-operations/qbittorrent:5.3.0@sha256:5a858e61f94cf2712391db32ed03556576c700858f3e62c4c6fcde262443ebd8
         imagePullPolicy: IfNotPresent
         name: app
         ports:
