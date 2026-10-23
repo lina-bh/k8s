@@ -35,8 +35,8 @@ spec:
               runAsUser: 65534
             volumeMounts:
             - name: config
-              mountPath: /etc/recyclarr/recyclarr.yml
-              subPath: recyclarr.yaml
+              mountPath: /config/recyclarr.yml
+              subPath: recyclarr.yml
             - name: data
               mountPath: /config
             - name: tmp
