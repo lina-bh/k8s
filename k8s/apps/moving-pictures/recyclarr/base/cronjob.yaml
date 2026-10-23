@@ -23,6 +23,8 @@ spec:
             name: sync
             args:
             - sync
+            - --log
+            - debug
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
