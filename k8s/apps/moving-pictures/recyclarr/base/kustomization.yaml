@@ -2,6 +2,7 @@
 namePrefix: recyclarr-
 resources:
 - cronjob.yaml
+- netpol.yaml
 configMapGenerator:
 - name: config
   files:
