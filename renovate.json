@@ -40,7 +40,9 @@
         "docker"
       ],
       "matchPackageNames": [
-        "ghcr.io/home-operations/sonarr"
+        "ghcr.io/home-operations/sonarr",
+        "registry.k8s.io/nfd/charts/node-feature-discovery",
+        "ghcr.io/prometheus-community/charts/prometheus-operator-crds"
       ],
       "matchUpdateTypes": [
         "patch"
