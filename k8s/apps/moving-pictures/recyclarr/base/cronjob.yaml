@@ -1,0 +1,63 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  labels:
+    app.kubernetes.io/name: recyclarr
+  name: sync
+spec:
+  jobTemplate:
+    metadata:
+      labels:
+        app.kubernetes.io/name: recyclarr
+    spec:
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: recyclarr
+        spec:
+          automountServiceAccountToken: false
+          containers:
+          - image: ghcr.io/recyclarr/recyclarr:8.8.0@sha256:b1fbb929ba718fdbdac2c1fc25b32b0ae916d7a5a0892c2068c9bfae6f1a9209
+            imagePullPolicy: IfNotPresent
+            name: sync
+            args:
+            - sync
+            - --preview
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                - ALL
+              readOnlyRootFilesystem: true
+              runAsGroup: 65534
+              runAsNonRoot: true
+              runAsUser: 65534
+            volumeMounts:
+            - name: config
+              mountPath: /etc/recyclarr/recyclarr.yml
+              subPath: recyclarr.yaml
+            - name: data
+              mountPath: /config
+            - name: tmp
+              mountPath: /tmp
+            - name: sarr-apikey
+              mountPath: /run/secrets/sarr-apikey
+          hostUsers: false
+          restartPolicy: Never
+          volumes:
+          - name: config
+            configMap:
+              name: config
+          - name: data
+            emptyDir: {}
+          - name: tmp
+            emptyDir:
+              medium: Memory
+          - name: sarr-apikey
+            secret:
+              secretName: sarr-apikey
+              items:
+              - key: apikey
+                path: apikey
+  schedule: 0 0 * * *

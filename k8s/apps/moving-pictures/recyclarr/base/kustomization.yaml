@@ -1,0 +1,8 @@
+---
+namePrefix: recyclarr-
+resources:
+- cronjob.yaml
+configMapGenerator:
+- name: config
+  files:
+  - recyclarr.yml
