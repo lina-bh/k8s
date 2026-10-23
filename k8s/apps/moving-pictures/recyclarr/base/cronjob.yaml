@@ -23,7 +23,6 @@ spec:
             name: sync
             args:
             - sync
-            - --preview
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
