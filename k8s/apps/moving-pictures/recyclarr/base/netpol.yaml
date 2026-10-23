@@ -4,11 +4,11 @@ kind: NetworkPolicy
 metadata:
   name: netpol
   labels:
-    app.kubernetes.io/app: recyclarr
+    app.kubernetes.io/name: recyclarr
 spec:
   podSelector:
     matchLabels:
-      app.kubernetes.io/app: recyclarr
+      app.kubernetes.io/name: recyclarr
   policyTypes:
   - Ingress
   - Egress
