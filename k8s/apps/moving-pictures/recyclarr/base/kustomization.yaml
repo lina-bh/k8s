@@ -1,9 +1,11 @@
 ---
-namePrefix: recyclarr-
 resources:
 - cronjob.yaml
 - netpol.yaml
+- pvc_state.yaml
 configMapGenerator:
-- name: config
+- name: recyclarr-config
   files:
   - recyclarr.yml
+  options:
+    disableNameSuffixHash: true

@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: netpol
+  name: recyclarr-netpol
   labels:
     app.kubernetes.io/name: recyclarr
 spec:

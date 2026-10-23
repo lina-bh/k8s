@@ -4,7 +4,7 @@ kind: CronJob
 metadata:
   labels:
     app.kubernetes.io/name: recyclarr
-  name: sync
+  name: recyclarr-sync
 spec:
   jobTemplate:
     metadata:
@@ -37,7 +37,7 @@ spec:
             - name: config
               mountPath: /config/recyclarr.yml
               subPath: recyclarr.yml
-            - name: data
+            - name: state
               mountPath: /config
             - name: tmp
               mountPath: /tmp
@@ -48,9 +48,10 @@ spec:
           volumes:
           - name: config
             configMap:
-              name: config
-          - name: data
-            emptyDir: {}
+              name: recyclarr-config
+          - name: state
+            persistentVolumeClaim:
+              claimName: recyclarr-state
           - name: tmp
             emptyDir:
               medium: Memory
