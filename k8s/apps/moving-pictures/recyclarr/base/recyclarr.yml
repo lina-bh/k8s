@@ -1,5 +1,5 @@
 ---
 sonarr:
   series:
-    base_url: http://sarr
+    base_url: http://sarr-app
     api_key: !file /run/secrets/sarr-apikey/apikey
