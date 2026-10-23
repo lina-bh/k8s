@@ -5,3 +5,7 @@ sonarr:
     api_key: !file /run/secrets/sarr-apikey/apikey
     quality_profiles:
     - trash_id: 9d142234e45d6143785ac55f5a9e8dc9 # WEB-1080p (Alternative)
+      upgrade:
+        allowed: false
+      reset_unmatched_scores:
+        enabled: true
