@@ -1,6 +1,6 @@
 [Container]
 Environment=POSTGRES_HOST_AUTH_METHOD=trust
-Image=registry.access.redhat.com/hi/postgresql:18@sha256:21b1cb2e33293462c4f164c448fcbe193248b9fddb9e5c1865941aadaec44e07
+Image=registry.access.redhat.com/hi/postgresql:18@sha256:a5ba4c8308ca4eff55e0d515331d5b95361976a838714a942739e0ce70d69421
 Network=postgres18.network
 NetworkAlias=postgres18
 Mount=type=volume,source=postgres18-data.volume,destination=/var/lib/postgresql/data/,chown=true
