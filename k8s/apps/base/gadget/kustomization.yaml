@@ -1,5 +1,0 @@
----
-resources:
-- helmrelease.yaml
-- namespace.yaml
-namespace: gadget
