@@ -1,4 +1,5 @@
 ---
+namespace: kube-system
 resources:
 - metrics-server/ks.yaml
 - generic-device-plugin/ks.yaml
