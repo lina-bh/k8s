@@ -1,0 +1,9 @@
+---
+resources:
+- ../../../../base/kube-system/generic-device-plugin/base
+configMapGenerator:
+- name: generic-device-plugin
+  files:
+  - config.yaml
+  options:
+    disableNameSuffixHash: true

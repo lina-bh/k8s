@@ -1,7 +1,0 @@
----
-namespace: kube-system
-resources:
-- node-feature-discovery
-- intel-gpu-plugin
-- generic-device-plugin/base
-- kube-network-policies

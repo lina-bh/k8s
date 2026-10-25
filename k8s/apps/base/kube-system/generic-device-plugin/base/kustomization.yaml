@@ -2,9 +2,3 @@
 namespace: kube-system
 resources:
 - helmrelease.yaml
-configMapGenerator:
-- name: generic-device-plugin
-  files:
-  - config.yaml
-  options:
-    disableNameSuffixHash: true

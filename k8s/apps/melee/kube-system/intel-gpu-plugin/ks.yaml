@@ -2,12 +2,12 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: node-feature-discovery
-  namespace: kube-system
+  name: intel-gpu-plugin
 spec:
-  dependsOn: []
+  dependsOn:
+  - name: node-feature-discovery
   interval: 1h
-  path: ./k8s/apps/base/kube-system/node-feature-discovery/base
+  path: ./k8s/apps/base/kube-system/intel-gpu-plugin/base
   prune: true
   sourceRef:
     kind: GitRepository
@@ -15,3 +15,4 @@ spec:
     namespace: flux-system
   timeout: 15m
   wait: true
+  targetNamespace: kube-system
