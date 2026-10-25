@@ -7,7 +7,7 @@ AddCapability=SYS_ADMIN
 AddCapability=DAC_OVERRIDE
 Entrypoint=["/container/label-run"]
 Exec=--address=127.0.0.1
-Image=quay.io/cockpit/ws@sha256:2c74851605ee6cbfb06e15ab38f97ce6a47033216250e8e4edfc1c728515583a
+Image=quay.io/cockpit/ws@sha256:369dc59f4d314feb2abf4dc07683b4c2f73b92b2f18ba5b02d2c382ec6be59ec
 Mount=type=bind,source=/,destination=/host,bind-propagation=rslave
 Network=host
 SecurityLabelDisable=true
