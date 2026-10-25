@@ -4,7 +4,6 @@ kind: ProxyGroup
 metadata:
   name: ingress
 spec:
-  hostnamePrefix: melee-ingress
   proxyClass: ingress
   replicas: 1
   type: ingress

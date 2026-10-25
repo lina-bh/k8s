@@ -6,7 +6,7 @@ metadata:
 spec:
   dependsOn: []
   interval: 10m
-  path: ./k8s/apps/base/tailscale/tailscale-operator/operator
+  path: ./k8s/apps/melee/tailscale/tailscale-operator/operator/melee
   prune: true
   sourceRef:
     kind: GitRepository
@@ -23,7 +23,7 @@ spec:
   dependsOn:
   - name: operator
   interval: 10m
-  path: ./k8s/apps/base/tailscale/tailscale-operator/configs
+  path: ./k8s/apps/melee/tailscale/tailscale-operator/configs/melee
   prune: true
   sourceRef:
     kind: GitRepository

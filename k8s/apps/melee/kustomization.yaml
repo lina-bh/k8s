@@ -1,6 +1,6 @@
 ---
 resources:
-- ../base/tailscale
+- tailscale
 - kube-system
 - moving-pictures
 - ../base/local-path-storage
