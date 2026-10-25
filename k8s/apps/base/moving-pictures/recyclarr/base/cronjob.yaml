@@ -62,4 +62,4 @@ spec:
               items:
               - key: apikey
                 path: apikey
-  schedule: 0 0 * * *
+  schedule: 0 0 * * 1
