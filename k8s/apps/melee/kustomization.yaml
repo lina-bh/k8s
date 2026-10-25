@@ -1,7 +1,7 @@
 ---
 resources:
 - ../base/tailscale
-- ../base/kube-system
+- kube-system
 - moving-pictures
 - ../base/local-path-storage
 - ../base/cnpg-system
