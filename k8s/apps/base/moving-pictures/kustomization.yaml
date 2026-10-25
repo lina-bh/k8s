@@ -1,0 +1,7 @@
+---
+namespace: moving-pictures
+resources:
+- namespace.yaml
+- postgres/ks.yaml
+- parr/ks.yaml
+- recyclarr/ks.yaml

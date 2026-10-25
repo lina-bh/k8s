@@ -1,0 +1,11 @@
+---
+resources:
+- ../base/tailscale
+- ../base/kube-system
+- moving-pictures
+- ../base/local-path-storage
+- ../base/cnpg-system
+- ../base/monitoring
+- ../base/external-secrets
+- music
+- ../base/gadget

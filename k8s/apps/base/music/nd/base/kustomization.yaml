@@ -1,0 +1,14 @@
+---
+resources:
+- ss.yaml
+- svc.yaml
+- ingress.yaml
+- netpol.yaml
+namePrefix: nd-
+configMapGenerator:
+- name: env
+  envs:
+  - env.sh
+  options:
+    labels:
+      app.kubernetes.io/name: nd

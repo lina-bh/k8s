@@ -1,0 +1,66 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+spec:
+  replicas: 1
+  template:
+    spec:
+      automountServiceAccountToken: false
+      containers:
+      - env:
+        - name: SONARR__AUTH__METHOD
+          value: External
+        - name: SONARR__LOG__DBENABLED
+          value: "false"
+        - name: SONARR__POSTGRES__HOST
+          value: pg-rw
+        - name: SONARR__POSTGRES__MAINDB
+          value: sarr
+        - name: SONARR__POSTGRES__USER
+          valueFrom:
+            secretKeyRef:
+              name: sarr-role
+              key: username
+        - name: SONARR__POSTGRES__PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sarr-role
+              key: password
+        - name: SONARR__AUTH__APIKEY
+          valueFrom:
+            secretKeyRef:
+              name: sarr-apikey
+              key: apikey
+        image: ghcr.io/home-operations/sonarr:5.0.0.2785@sha256:825bf13276077b2fa57dd1c0a67d10b2e71891b7391d19636615ede8ddc0a4a5
+        imagePullPolicy: IfNotPresent
+        name: app
+        ports:
+        - name: http
+          containerPort: 8989
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          seLinuxOptions:
+            level: s0
+          readOnlyRootFilesystem: true
+          runAsGroup: 995
+          runAsNonRoot: true
+          runAsUser: 962
+        volumeMounts:
+        - mountPath: /config
+          name: config
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: http
+      hostUsers: true
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: config
+      securityContext:
+        fsGroup: 995

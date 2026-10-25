@@ -1,0 +1,41 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: sarr
+spec:
+  dependsOn:
+  - name: pg-password
+    namespace: external-secrets
+  - name: postgres
+  interval: 1h
+  path: ./k8s/apps/base/moving-pictures/sarr/base
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    namespace: flux-system
+    name: flux-system
+  targetNamespace: moving-pictures
+  timeout: 15m
+  wait: true
+  patches:
+  - target:
+      kind: Deployment
+      name: app
+    patch: |
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: app
+      spec:
+        template:
+          spec:
+            containers:
+            - name: app
+              volumeMounts:
+              - name: moving-pictures
+                mountPath: /var/mnt/moving_pictures
+            volumes:
+            - name: moving-pictures
+              persistentVolumeClaim:
+                claimName: moving-pictures
