@@ -4,7 +4,8 @@
     "config:recommended",
     "helpers:pinGitHubActionDigests",
     "customManagers:dockerfileVersions",
-    "docker:pinDigests"
+    "docker:pinDigests",
+    "github>home-operations/renovate-presets//apps/cnpg.json5"
   ],
   "packageRules": [
     {
