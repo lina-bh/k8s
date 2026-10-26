@@ -1,0 +1,5 @@
+---
+namespace: external-secrets
+resources:
+- ../../../apps/external-secrets
+- ../../../apps/external-secrets/pg-password

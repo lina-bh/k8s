@@ -1,0 +1,15 @@
+---
+namespace: moving-pictures
+resources:
+- ../../../apps/moving-pictures
+- ../../../apps/moving-pictures/jfin
+- ../../../apps/moving-pictures/parr
+- ../../../apps/moving-pictures/postgres
+- ../../../apps/moving-pictures/qbt
+- ../../../apps/moving-pictures/recyclarr
+- ../../../apps/moving-pictures/sarr
+- storage
+patches:
+- path: jfin.yaml
+- path: qbt.yaml
+- path: sarr.yaml

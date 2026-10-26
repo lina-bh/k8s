@@ -1,5 +1,0 @@
----
-namespace: tailscale
-resources:
-- ../../base/tailscale
-- tailscale-operator/ks.yaml

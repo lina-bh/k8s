@@ -1,0 +1,35 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cloudnative-pg
+spec:
+  dependsOn: []
+  interval: 1h
+  path: ./k8s/apps/cnpg-system/cloudnative-pg/operator/base
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    namespace: flux-system
+    name: flux-system
+  targetNamespace: cnpg-system
+  timeout: 15m
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: configs
+spec:
+  dependsOn:
+  - name: cloudnative-pg
+  interval: 1h
+  path: ./k8s/apps/cnpg-system/cloudnative-pg/configs/base
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    namespace: flux-system
+    name: flux-system
+  targetNamespace: cnpg-system
+  timeout: 15m
+  wait: true

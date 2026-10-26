@@ -1,0 +1,4 @@
+---
+namespace: local-path-storage
+resources:
+- ../../../apps/local-path-storage

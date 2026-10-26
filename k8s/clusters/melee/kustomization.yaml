@@ -1,4 +1,11 @@
 ---
 resources:
 - flux-system
-- ../../apps/melee
+- ../../apps
+- cnpg-system
+- external-secrets
+- kube-system
+- local-path-storage
+- moving-pictures
+- music
+- tailscale

@@ -1,8 +1,0 @@
----
-namespace: moving-pictures
-resources:
-- ../../base/moving-pictures
-- jfin.yaml
-- qbt.yaml
-- sarr.yaml
-- storage

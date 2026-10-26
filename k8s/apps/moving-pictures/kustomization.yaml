@@ -1,0 +1,4 @@
+---
+namespace: moving-pictures
+resources:
+- namespace.yaml

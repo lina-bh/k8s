@@ -1,6 +1,0 @@
----
-namespace: music
-resources:
-- ../../base/music
-- storage
-- nd.yaml

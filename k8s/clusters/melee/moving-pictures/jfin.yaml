@@ -1,0 +1,29 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: jfin
+spec:
+  path: ./k8s/apps/moving-pictures/jfin/intel
+  patches:
+  - target:
+      kind: StatefulSet
+    patch: |
+      apiVersion: apps/v1
+      kind: StatefulSet
+      metadata:
+        name: app
+      spec:
+        template:
+          spec:
+            containers:
+            - name: app
+              volumeMounts:
+              - name: moving-pictures
+                mountPath: /var/mnt/moving-pictures/tv
+                subPath: tv
+                readOnly: true
+            volumes:
+            - name: moving-pictures
+              persistentVolumeClaim:
+                claimName: moving-pictures

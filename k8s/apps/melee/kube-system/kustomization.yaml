@@ -1,8 +1,0 @@
----
-namespace: kube-system
-resources:
-- metrics-server/ks.yaml
-- generic-device-plugin/ks.yaml
-- nfd/ks.yaml
-- intel-gpu-plugin/ks.yaml
-- kube-network-policies/ks.yaml

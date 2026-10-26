@@ -1,0 +1,8 @@
+---
+namespace: music
+resources:
+- ../../../apps/music
+- ../../../apps/music/nd
+- storage
+patches:
+- path: nd.yaml

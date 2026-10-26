@@ -1,0 +1,8 @@
+---
+namespace: kube-system
+resources:
+- ../../../apps/kube-system/generic-device-plugin
+- ../../../apps/kube-system/intel-gpu-plugin
+- ../../../apps/kube-system/kube-network-policies
+- ../../../apps/kube-system/metrics-server
+- ../../../apps/kube-system/node-feature-discovery
