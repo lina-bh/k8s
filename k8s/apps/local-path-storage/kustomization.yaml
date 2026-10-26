@@ -1,5 +1,5 @@
 ---
 resources:
-- local-path-provisioner
+- local-path-provisioner/ks.yaml
 - namespace.yaml
 namespace: local-path-storage
