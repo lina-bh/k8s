@@ -8,6 +8,7 @@ metadata:
     app.kubernetes.io/part-of: zot
   annotations:
     tailscale.com/tags: "tag:k8s,tag:registry"
+    tailscale.com/proxy-group: ingress
 spec:
   ingressClassName: tailscale
   tls:
