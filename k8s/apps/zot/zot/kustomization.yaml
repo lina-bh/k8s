@@ -1,0 +1,4 @@
+---
+namespace: zot
+resources:
+- ks.yaml

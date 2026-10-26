@@ -1,0 +1,14 @@
+---
+namespace: zot
+resources:
+- ../../../apps/zot
+- ../../../apps/zot/zot
+patches:
+- target:
+    group: kustomize.toolkit.fluxcd.io
+    kind: Kustomization
+    name: zot
+  patch: |
+    - op: replace
+      path: /spec/path
+      value: ./k8s/apps/zot/zot/registry

@@ -1,0 +1,32 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: zot
+spec:
+  interval: 24h
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 0.1.128
+    digest: "sha256:a1983cb2f13ddd5f68d5051bf6e6ea9e38fae1135706623f24f88d59f9e69a2d"
+  url: oci://ghcr.io/project-zot/helm-charts/zot
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: zot
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: zot
+  install:
+    crds: CreateReplace
+  interval: 24h
+  upgrade:
+    crds: CreateReplace
+  values:
+    persistence: false
+    ingress:
+      enabled: false
