@@ -15,6 +15,21 @@ spec:
     target:
       kind: DaemonSet
       name: intel-gpu-plugin
+  # The default "-bypath=single" mounts every /dev/dri/by-path entry starting
+  # with the GPU's PCI address, including simpledrm's
+  # pci-0000:00:02.0-platform-simple-framebuffer.0-card. When that link
+  # dangles, containerd fails to create the container with "failed to mkdir
+  # ...: file exists". Nothing on the node needs the by-path links.
+  # https://github.com/intel/intel-device-plugins-for-kubernetes/issues/2296
+  # Assisted-by: Claude Code:claude-opus-5-5
+  - patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/args
+        value:
+        - -bypath=none
+    target:
+      kind: DaemonSet
+      name: intel-gpu-plugin
   path: "./deployments/gpu_plugin/base"
   prune: true
   retryInterval: 2m
