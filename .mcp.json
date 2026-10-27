@@ -13,6 +13,10 @@
         "-y",
         "renovate-mcp"
       ]
+    },
+    "grafana": {
+      "type": "http",
+      "url": "https://mcp.grafana.com/mcp"
     }
   }
 }
