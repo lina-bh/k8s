@@ -44,6 +44,17 @@ spec:
     victoria-metrics-operator:
       serviceMonitor:
         enabled: false
+    prometheus-node-exporter:
+      # Setting extraArgs replaces the chart's list, so its two filesystem
+      # filters are repeated. The netdev and netclass collectors skip pod veth
+      # interfaces: 22 series each, under a new name whenever a pod starts.
+      # cadvisor's container_network_* already covers per-pod traffic.
+      # Assisted-by: Claude Code:claude-opus-5-5
+      extraArgs:
+      - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
+      - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|erofs|sysfs|tracefs)$
+      - --collector.netdev.device-exclude=^veth
+      - --collector.netclass.ignored-devices=^veth
     kubeApiServer:
       vmScrape:
         spec:
@@ -642,13 +653,19 @@ spec:
           - workqueue_adds_total
           - workqueue_depth
           - workqueue_queue_duration_seconds_bucket
-        # Drop unmarked series from this chart's jobs, and the flags the
-        # vmagent dashboard does not show (it only reads is_set="true").
+        # Drop unmarked series from this chart's jobs; the flags the vmagent
+        # dashboard does not show (it only reads is_set="true"); and cadvisor's
+        # pod- and system-level series for metrics whose queries only read
+        # container!="" (filesystem, CFS throttling) or image!="" (memory,
+        # where pause containers still count). Network series are only
+        # reported per pod, with container="", so they stay.
         # Assisted-by: Claude Code:claude-opus-5-5
         - action: drop
           if:
           - '{job=~"apiserver|kubelet|node-exporter|kube-state-metrics|kube-controller-manager|kube-scheduler|kube-etcd|core-dns|vmagent-victoria-metrics-k8s-stack(-reloader-http)?", __tmp_allowed=""}'
           - 'flag{job=~"vmagent-victoria-metrics-k8s-stack(-reloader-http)?", is_set!="true"}'
+          - '{__name__=~"container_fs_.+|container_cpu_cfs_throttled_periods_total", job="kubelet", metrics_path="/metrics/cadvisor", container=""}'
+          - '{__name__=~"container_memory_(cache|rss|swap)", job="kubelet", metrics_path="/metrics/cadvisor", container="", image=""}'
         remoteWrite:
         - url: https://prometheus-prod-55-prod-gb-south-1.grafana.net/api/prom/push
           basicAuth:
