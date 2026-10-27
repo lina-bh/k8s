@@ -1,0 +1,26 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: victoria-metrics-k8s-stack
+spec:
+  patches:
+  - patch: |
+      apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: victoria-metrics-k8s-stack
+      spec:
+        values:
+          kubeEtcd:
+            enabled: false
+          kubeControllerManager:
+            enabled: false
+          kubeScheduler:
+            enabled: false
+          coreDns:
+            enabled: false
+          vmagent:
+            spec:
+              externalLabels:
+                origin_prometheus: melee

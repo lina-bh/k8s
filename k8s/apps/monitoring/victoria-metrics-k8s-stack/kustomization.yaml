@@ -1,0 +1,4 @@
+---
+resources:
+- ks.yaml
+namespace: monitoring

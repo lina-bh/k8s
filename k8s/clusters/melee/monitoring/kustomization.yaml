@@ -1,0 +1,7 @@
+---
+resources:
+# - ../../../apps/monitoring
+- ../../../apps/monitoring/victoria-metrics-k8s-stack
+namespace: monitoring
+patches:
+- path: victoria-metrics-k8s-stack.yaml
