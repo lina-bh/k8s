@@ -41,10 +41,33 @@ spec:
       enabled: false
     syncJob:
       enabled: false
+    kubeApiServer:
+      vmScrape:
+        spec:
+          endpoints:
+          - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+            port: https
+            scheme: https
+            tlsConfig:
+              caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+              serverName: kubernetes
+            metricRelabelConfigs:
+            - action: keep
+              source_labels: [__name__]
+              regex: "apiserver_client_certificate_expiration_seconds_.*|apiserver_request_(total|terminations_total)|workqueue_(depth|adds_total|retries_total)"
     kubelet:
       vmScrape:
         spec:
           interval: 60s
+          metricRelabelConfigs:
+          - action: labeldrop
+            regex: (uid)
+          - action: labeldrop
+            regex: (id|name)
+          - action: keep
+            source_labels:
+            - __name__
+            regex: kubelet_.*
     vmagent:
       spec:
         scrapeInterval: 60s
