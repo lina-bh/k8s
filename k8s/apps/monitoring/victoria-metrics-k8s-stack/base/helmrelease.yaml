@@ -73,6 +73,7 @@ spec:
         scrapeInterval: 60s
         extraArgs:
           "remoteWrite.forcePromProto": "true"
+          "remoteWrite.maxHourlySeries": "14000"
         remoteWrite:
         - url: https://prometheus-prod-55-prod-gb-south-1.grafana.net/api/prom/push
           basicAuth:
