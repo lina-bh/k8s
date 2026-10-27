@@ -20,7 +20,39 @@ spec:
             enabled: false
           coreDns:
             enabled: false
+          kubelet:
+            vmScrapes:
+              kubelet:
+                spec:
+                  # k3s serves apiserver, scheduler and etcd client metrics from
+                  # the kubelet endpoint too; keep only what the kubelet rules
+                  # and dashboards query with job="kubelet",
+                  # metrics_path="/metrics".
+                  # Assisted-by: Claude Code:claude-opus-5-5
+                  metricRelabelConfigs:
+                  - action: labeldrop
+                    regex: (uid)
+                  - action: labeldrop
+                    regex: (id|name)
+                  - action: keep
+                    source_labels:
+                    - __name__
+                    regex: "kubelet_.*|volume_manager_total_volumes|storage_operation_(duration_seconds_(count|bucket)|errors_total)|rest_client_requests_total|process_(resident_memory_bytes|cpu_seconds_total)|go_goroutines"
           vmagent:
             spec:
               externalLabels:
                 origin_prometheus: melee
+  # Appends to the base global relabel list rather than replacing it.
+  # Assisted-by: Claude Code:claude-opus-5-5
+  - target:
+      group: helm.toolkit.fluxcd.io
+      kind: HelmRelease
+      name: victoria-metrics-k8s-stack
+    patch: |
+      - op: add
+        path: /spec/values/vmagent/spec/inlineRelabelConfig/-
+        value:
+          action: drop
+          source_labels:
+          - __name__
+          regex: node_cooling_device_.*
