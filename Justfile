@@ -1,6 +1,6 @@
 cluster := "melee"
 
-reconcile cluster="melee" type="git":
+reconcile type="git":
 	git push origin main
 	flux --namespace=flux-system --context={{ cluster }} reconcile source {{ type }} flux-system
 
