@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
 - ./kustomization.kustomize.toolkit.fluxcd.io_external-secrets.yaml
 - ./kustomization.kustomize.toolkit.fluxcd.io_tailscale-operator.yaml
-- ./kustomization.kustomize.toolkit.fluxcd.io_kube-prometheus-stack.yaml
 - ./kustomization.kustomize.toolkit.fluxcd.io_metrics-server.yaml
 - ./kustomization.kustomize.toolkit.fluxcd.io_longhorn.yaml
 - ./kustomization.kustomize.toolkit.fluxcd.io_cloudnative-pg.yaml
