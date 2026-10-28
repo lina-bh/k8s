@@ -17,7 +17,7 @@ Environment=LLAMA_ARG_NO_HOST=1
 Environment=LLAMA_ARG_REASONING=0
 Environment=LLAMA_ARG_UI_MCP_PROXY=1
 Exec=--no-mmproj -hf unsloth/LFM2.5-1.2B-Instruct-GGUF:UD-Q8_K_XL --temp 0.1 --top-k 50 --top-p 0.1 --repeat-penalty 1.05
-Image=ghcr.io/ggml-org/llama.cpp:server-vulkan@sha256:3607a208ef03bc4f64515fbfac6bffc386859c14b64abec24c96f143868fcb37
+Image=ghcr.io/ggml-org/llama.cpp:server-vulkan@sha256:7f4d8bdd29b931d776f02e6b61f1353a80522d0ebde380383128b65fc5129726
 Mount=type=volume,source=llama_cpp-cache.volume,destination=/app/.cache
 Network=bridge
 PublishPort=127.0.0.1:9931:9931/tcp
