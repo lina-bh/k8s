@@ -5,13 +5,13 @@ reconcile cluster="melee" type="git":
 	flux --namespace=flux-system --context={{ cluster }} reconcile source {{ type }} flux-system
 
 inflate:
-	flate build ks --path=k8s/clusters/{{ cluster }}
+	flate build ks --path=clusters/{{ cluster }}
 
 build:
-	flate build all --path=k8s/clusters/{{ cluster }}
+	flate build all --path=clusters/{{ cluster }}
 
 diff output="human":
-	flate diff all --path=k8s/clusters/{{ cluster }} --output={{ output }}
+	flate diff all --path=clusters/{{ cluster }} --output={{ output }}
 
 [script("sh", "-eu")]
 lint:
