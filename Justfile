@@ -17,10 +17,10 @@ diff output="human":
 lint:
 	tmp="$(mktemp)"
 	trap 'rm -f "$tmp"' EXIT
-	{{ quote(just_executable()) }} -f {{ quote(justfile()) }} inflate > "$tmp"
+	flate build all --path=clusters/{{ cluster }} > "$tmp"
 	status=0
 	# --config {{ quote(justfile_directory()) }}/.kube-linter.yaml
-	kube-linter lint - < "$tmp" || status=1
+	kube-linter lint --config=kube-linter.yaml - < "$tmp" || status=1
 	kubeconform -schema-location default -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{{{.Group}}/{{{{.ResourceKind}}_{{{{.ResourceAPIVersion}}.json' < "$tmp" || status=1
 	exit "$status"
 
