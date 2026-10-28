@@ -8,7 +8,7 @@ spec:
   interval: 2m
   ref:
     branch: main
-  url: https://github.com/lina-bh/melee.git
+  url: https://github.com/lina-bh/k8s.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
