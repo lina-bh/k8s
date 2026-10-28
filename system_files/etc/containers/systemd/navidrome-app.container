@@ -1,9 +1,0 @@
-[Container]
-Image=ghcr.io/navidrome/navidrome:latest@sha256:38dc2727bfcfd5ede290f8ada114fc90368146f265ae4701ddddbcbe2a44ee52
-GroupAdd=995
-Mount=type=bind,source=/srv/Music,destination=/music,relabel=shared,readonly=true
-Mount=type=bind,source=/var/lib/navidrome,destination=/data,chown=true,relabel=private
-Pod=navidrome.pod
-ReadOnly=true
-User=971:971
-Volume=/data/cache

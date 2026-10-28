@@ -1,8 +1,0 @@
-[Pod]
-HostName=n
-ServiceName=navidrome
-UserNS=auto:uidmapping=971:971:1,gidmapping=971:971:1,gidmapping=995:995:1
-Network=private
-
-[Install]
-WantedBy=default.target

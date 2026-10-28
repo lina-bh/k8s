@@ -1,7 +1,0 @@
-[Container]
-Environment=TS_SERVE_CONFIG=/serve.json
-Mount=type=volume,source=navidrome-tailscale.volume,destination=/var/lib/tailscale,chown=true
-Mount=type=bind,source=./serve/navidrome.json,destination=/serve.json,readonly=true,relabel=private
-Secret=tskey-auth,type=env,target=TS_AUTHKEY
-Pod=navidrome.pod
-User=99:99

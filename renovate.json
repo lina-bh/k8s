@@ -12,29 +12,11 @@
       "matchDatasources": [
         "docker"
       ],
-      "matchPackageNames": [
-        "quay.io/fedora/fedora-iot"
-      ],
-      "enabled": false
-    },
-    {
-      "matchDatasources": [
-        "docker"
-      ],
       "matchUpdateTypes": [
         "digest",
         "pinDigest"
       ],
       "automerge": true
-    },
-    {
-      "matchDatasources": [
-        "github-releases"
-      ],
-      "matchPackageNames": [
-        "k3s-io/k3s"
-      ],
-      "separateMultipleMinor": true
     },
     {
       "matchDatasources": [
@@ -90,11 +72,6 @@
   "prHourlyLimit": 0,
   "automergeType": "branch",
   "ignoreTests": true,
-  "quadlet": {
-    "managerFilePatterns": [
-      "/.+\\.container.d/.+\\.conf$/"
-    ]
-  },
   "flux": {
     "managerFilePatterns": [
       "/^k8s/apps/.+\\.ya?ml$/"

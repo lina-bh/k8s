@@ -1,18 +1,8 @@
 cluster := "melee"
 
-kubeconfig:
-	ssh root@melee.lamancha-alhena.ts.net -- \
-		sudo cat /etc/rancher/k3s/k3s.yaml | \
-		cluster="{{ cluster }}" yq ' \
-		(.. | select(. == "default")) = strenv(cluster) \
-		| .clusters[].cluster.server = "https://melee.lamancha-alhena.ts.net:6443" \
-		| del(.current-context)' \
-	> .kube/config
-	kubectl config use-context "{{ cluster }}"
-
-reconcile:
+reconcile cluster="melee" type="git":
 	git push origin main
-	flux --namespace=flux-system --context=melee reconcile source git flux-system
+	flux --namespace=flux-system --context={{ cluster }} reconcile source {{ type }} flux-system
 
 inflate:
 	flate build ks --path=k8s/clusters/{{ cluster }}
@@ -20,8 +10,8 @@ inflate:
 build:
 	flate build all --path=k8s/clusters/{{ cluster }}
 
-diff *args:
-	flate diff all --path=k8s/clusters/{{ cluster }} {{ args }}
+diff output="human":
+	flate diff all --path=k8s/clusters/{{ cluster }} --output={{ output }}
 
 [script("sh", "-eu")]
 lint:
@@ -53,17 +43,6 @@ kind-up:
 	     --prune=true \
 	     --interval=10m \
 	     --wait=true
-
-kind-push:
-	flux push artifact \
-	     --path=. \
-	     --source=https://github.com/lina-bh/melee.git \
-	     --revision="$(git describe --always --dirty)" \
-	     --ignore-paths='/*,!/k8s/' \
-	     oci://registry.lamancha-alhena.ts.net/k8s-dev:latest
-	flux \
-	     --context="kind-${KIND_CLUSTER_NAME}" \
-	     reconcile source oci flux-system
 
 kind-down:
 	kind delete cluster
