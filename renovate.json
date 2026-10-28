@@ -74,12 +74,12 @@
   "ignoreTests": true,
   "flux": {
     "managerFilePatterns": [
-      "/^k8s/apps/.+\\.ya?ml$/"
+      "/^apps/.+\\.ya?ml$/"
     ]
   },
   "kubernetes": {
     "managerFilePatterns": [
-      "/^k8s/apps/.+\\.ya?ml$/"
+      "/^apps/.+\\.ya?ml$/"
     ]
   }
 }
