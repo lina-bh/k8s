@@ -42,10 +42,24 @@
       ],
       "matchPackageNames": [
         "ghcr.io/home-operations/sonarr",
+        "ghcr.io/home-operations/prowlarr",
         "registry.k8s.io/nfd/charts/node-feature-discovery",
         "ghcr.io/prometheus-community/charts/prometheus-operator-crds"
       ],
       "matchUpdateTypes": [
+        "patch"
+      ],
+      "automerge": true
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/external-secrets/charts/external-secrets"
+      ],
+      "matchUpdateTypes": [
+        "minor",
         "patch"
       ],
       "automerge": true
@@ -62,6 +76,15 @@
       ],
       "minimumReleaseAge": "1 day",
       "automerge": true
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/jellyfin/jellyfin"
+      ],
+      "separateMultipleMinor": true
     }
   ],
   "prHourlyLimit": 0,
