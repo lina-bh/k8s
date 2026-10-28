@@ -8,7 +8,6 @@ spec:
   interval: 1m0s
   ref:
     branch: main
-  secretRef: null
   url: https://github.com/lina-bh/k8s.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
