@@ -1,0 +1,15 @@
+[settings]
+lockfile = true
+
+[env._]
+file = [".env.local"]
+
+[tools]
+kubectl = "1.37"
+flux2 = "2.7"
+kubeconform = "latest"
+kube-linter = "latest"
+just = "latest"
+"aqua:home-operations/flate" = "latest"
+"npm:renovate" = { version = "latest", trust_policy_excludes = ["@yarnpkg/libzip@3.2.2"] }
+node = "24"
