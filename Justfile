@@ -13,6 +13,9 @@ build:
 diff output="human":
 	flate diff all --path=clusters/{{ cluster }} --output={{ output }}
 
+renovate:
+	env RENOVATE_GITHUB_COM_TOKEN="$(gh auth token)" LOG_LEVEL=debug renovate --platform=local --dry-run=lookup
+
 [script("sh", "-eu")]
 lint:
 	tmp="$(mktemp)"
