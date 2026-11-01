@@ -74,12 +74,14 @@
   "ignoreTests": true,
   "flux": {
     "managerFilePatterns": [
-      "/^apps/.+\\.ya?ml$/"
+      "/^apps/.+\\.ya?ml$/",
+      "/^clusters/oke/.+\\.ya?ml$/"
     ]
   },
   "kubernetes": {
     "managerFilePatterns": [
-      "/^apps/.+\\.ya?ml$/"
+      "/^apps/.+\\.ya?ml$/",
+      "/^clusters/oke/.+\\.ya?ml$/"
     ]
   }
 }
