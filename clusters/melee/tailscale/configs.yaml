@@ -11,4 +11,4 @@ spec:
     patch: |
       - op: add
         path: /spec/hostnamePrefix
-        value: melee-ingress-
+        value: melee-ingress
