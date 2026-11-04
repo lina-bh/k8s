@@ -11,4 +11,4 @@ spec:
     patch: |
       - op: add
         path: /spec/values/operatorConfig/hostname
-        value: melee-k3s
+        value: melee-operator
