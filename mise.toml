@@ -1,12 +1,13 @@
 [settings]
 lockfile = true
+lockfile_platforms = ["linux-x64"]
 
 [env._]
 file = [".env.local"]
 
 [tools]
 kubectl = "1.37"
-flux2 = "2.7"
+flux2 = "2.10"
 kubeconform = "latest"
 kube-linter = "latest"
 just = "latest"
