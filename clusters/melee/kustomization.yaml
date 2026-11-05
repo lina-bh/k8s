@@ -4,3 +4,4 @@ resources:
 - ../../apps
 - tailscale
 - openebs
+- kube-system
