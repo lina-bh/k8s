@@ -1,5 +1,6 @@
 ---
 resources:
 - ../../../apps/openebs
+- sc.yaml
 patches:
 - path: openebs.yaml
