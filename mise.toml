@@ -15,3 +15,4 @@ just = "latest"
 "npm:renovate" = { version = "latest", trust_policy_excludes = ["@yarnpkg/libzip@3.2.2"] }
 node = "24"
 gh = "latest"
+helm = "latest"
