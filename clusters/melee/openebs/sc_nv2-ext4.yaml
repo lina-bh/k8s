@@ -1,0 +1,14 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nv2-ext4
+parameters:
+  storage: "lvm"
+  volgroup: "nv2"
+  fsType: ext4
+provisioner: local.csi.openebs.io
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
+mountOptions:
+- context=system_u:object_r:ephemeral_t:s0

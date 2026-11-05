@@ -1,6 +1,7 @@
 ---
 resources:
 - ../../../apps/openebs
-- sc.yaml
+- sc_nv2-ext4-shared.yaml
+- sc_nv2-ext4.yaml
 patches:
 - path: openebs.yaml
