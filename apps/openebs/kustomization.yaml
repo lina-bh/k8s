@@ -1,0 +1,5 @@
+---
+namespace: openebs
+resources:
+- namespace.yaml
+- openebs/ks.yaml

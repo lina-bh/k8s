@@ -3,3 +3,4 @@ resources:
 - flux-system
 - ../../apps
 - tailscale
+- openebs
