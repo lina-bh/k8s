@@ -29,6 +29,10 @@ spec:
                 subPath: Music
                 readOnly: true
             volumes:
+            # readOnly here (not just on the volumeMount) stops kubelet
+            # applying fsGroup ownership to the local PV on the host.
+            # Assisted-by: Claude Code:claude-opus-5-5
             - name: music
               persistentVolumeClaim:
                 claimName: music
+                readOnly: true

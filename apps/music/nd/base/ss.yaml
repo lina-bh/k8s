@@ -43,6 +43,9 @@ spec:
             name: env
             optional: false
       hostUsers: true
+      securityContext:
+        fsGroup: 971
+        fsGroupChangePolicy: OnRootMismatch
       volumes:
       - name: tmp
         emptyDir: {}
