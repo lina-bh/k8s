@@ -7,3 +7,4 @@ resources:
 - kube-system
 - music
 - external-secrets
+- cnpg-system
