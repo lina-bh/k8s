@@ -5,6 +5,8 @@ metadata:
   name: app
   labels:
     app.kubernetes.io/name: nd
+  annotations:
+    tailscale.com/tags: "tag:k8s,tag:nd"
 spec:
   ingressClassName: tailscale
   tls:

@@ -8,6 +8,12 @@ spec:
   - target:
       kind: StatefulSet
     patch: |
+      - op: replace
+        path: /spec/volumeClaimTemplates/0/spec/storageClassName
+        value: nv2-ext4
+  - target:
+      kind: StatefulSet
+    patch: |
       apiVersion: apps/v1
       kind: StatefulSet
       metadata:
