@@ -4,3 +4,5 @@ resources:
 - ../../../apps/iv
 - ../../../apps/iv/iv
 - ../../../apps/iv/keygen
+patches:
+- path: iv.yaml
