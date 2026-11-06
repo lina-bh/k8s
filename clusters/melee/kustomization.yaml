@@ -6,3 +6,4 @@ resources:
 - openebs
 - kube-system
 - music
+- external-secrets
