@@ -1,0 +1,17 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: iv-pg
+  labels:
+    app.kubernetes.io/name: iv
+spec:
+  enablePDB: false
+  instances: 1
+  storage:
+    size: 1Gi
+  imageCatalogRef:
+    apiGroup: postgresql.cnpg.io
+    kind: ClusterImageCatalog
+    name: postgresql-minimal-trixie
+    major: 18

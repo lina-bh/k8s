@@ -1,0 +1,9 @@
+---
+check_tables: true
+external_port: 443
+domain: "iv.lamancha-alhena.ts.net"
+https_only: true
+disable_proxy: ["local", "livestream"]
+popular_enabled: false
+captcha_enabled: false
+enable_user_notifications: false

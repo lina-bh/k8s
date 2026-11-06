@@ -1,0 +1,6 @@
+---
+namespace: iv
+resources:
+- ../../../apps/iv
+- ../../../apps/iv/iv
+- ../../../apps/iv/keygen

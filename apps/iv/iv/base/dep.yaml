@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iv-app
+  labels:
+    app.kubernetes.io/name: iv
+    app.kubernetes.io/component: app
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: iv
+      app.kubernetes.io/component: app
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: iv
+        app.kubernetes.io/component: app
+    spec:
+      automountServiceAccountToken: false
+      initContainers:
+      - name: migrate
+        image: invidious
+        imagePullPolicy: IfNotPresent
+        args:
+        - /invidious/invidious
+        - --migrate
+        volumeMounts:
+        - name: config
+          mountPath: /etc/invidious
+          readOnly: true
+      containers:
+      - name: app
+        image: invidious
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 3000
+        volumeMounts:
+        - name: config
+          mountPath: /etc/invidious
+          readOnly: true
+      hostUsers: false
+      volumes:
+      - name: config
+        configMap:
+          name: iv-cfg

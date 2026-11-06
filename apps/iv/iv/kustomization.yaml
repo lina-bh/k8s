@@ -1,0 +1,4 @@
+---
+namespace: iv
+resources:
+- ks.yaml

@@ -1,0 +1,57 @@
+---
+resources:
+- dep.yaml
+- pg.yaml
+- externalsecret_hmac.yaml
+- externalsecret_companion-key.yaml
+- container.yaml
+- svc.yaml
+- ingress.yaml
+images:
+- name: invidious
+  newName: quay.io/invidious/invidious
+  newTag: "latest@sha256:3ddcd912e86339b333d19fcca8bc46e59c0ce0e4e367130f11c1dede69463485"
+configMapGenerator:
+- name: iv-cfg
+  files:
+  - invidious.yml=./resources/invidious.yml
+replacements:
+- source:
+    kind: ConfigMap
+    name: iv-container
+    fieldPath: data.securityContext
+  targets:
+  - select:
+      kind: Deployment
+      name: iv-app
+    fieldPaths:
+    - spec.template.spec.containers.*.securityContext
+    - spec.template.spec.initContainers.*.securityContext
+    options:
+      create: true
+- source:
+    kind: ConfigMap
+    name: iv-container
+    fieldPath: data.env
+  targets:
+  - select:
+      kind: Deployment
+      name: iv-app
+    fieldPaths:
+    - spec.template.spec.containers.*.env
+    - spec.template.spec.initContainers.*.env
+    options:
+      create: true
+- source:
+    kind: ConfigMap
+    name: iv-container
+    fieldPath: data.envFrom
+  targets:
+  - select:
+      kind: Deployment
+      name: iv-app
+    fieldPaths:
+    - spec.template.spec.containers.*.envFrom
+    - spec.template.spec.initContainers.*.envFrom
+    options:
+      create: true
