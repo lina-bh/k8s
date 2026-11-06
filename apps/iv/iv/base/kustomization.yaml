@@ -7,6 +7,8 @@ resources:
 - container.yaml
 - svc.yaml
 - ingress.yaml
+- dep_companion.yaml
+- svc_companion.yaml
 images:
 - name: invidious
   newName: quay.io/invidious/invidious

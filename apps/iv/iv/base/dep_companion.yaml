@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iv-companion
+  labels:
+    app.kubernetes.io/name: iv
+    app.kubernetes.io/component: companion
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: iv
+      app.kubernetes.io/component: companion
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: iv
+        app.kubernetes.io/component: companion
+    spec:
+      automountServiceAccountToken: false
+      containers:
+      - name: companion
+        image: quay.io/invidious/invidious-companion:latest@sha256:55f0bc1002c0edbe4e8163d503c7d797ed919e5861e2c0d0f829ae80138237a4
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 8282
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsGroup: 65534
+          runAsNonRoot: true
+          runAsUser: 65534
+        env:
+        - name: SERVER_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: iv-companion-key
+              key: INVIDIOUS_INVIDIOUS_COMPANION_KEY
+              optional: false
+        volumeMounts:
+        - name: cache
+          mountPath: /var/tmp/youtubei.js
+      hostUsers: false
+      volumes:
+      - name: cache
+        emptyDir: {}

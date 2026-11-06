@@ -7,3 +7,5 @@ disable_proxy: ["local", "livestream"]
 popular_enabled: false
 captcha_enabled: false
 enable_user_notifications: false
+invidious_companion:
+- private_url: http://iv-companion:8282/companion
