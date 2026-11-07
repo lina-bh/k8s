@@ -102,6 +102,13 @@
       "matchFileNames": [
         ".mise/locks/**"
       ]
+    },
+    {
+      "groupName": "kube-network-policies",
+      "matchPackageNames": [
+        "kubernetes-sigs/kube-network-policies",
+        "registry.k8s.io/networking/kube-network-policies"
+      ]
     }
   ],
   "prConcurrentLimit": 0,

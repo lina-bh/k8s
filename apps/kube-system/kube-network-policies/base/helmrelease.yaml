@@ -6,7 +6,7 @@ metadata:
 spec:
   interval: 24h
   ref:
-    commit: cf488668c33b32694acd96f9afa67689a836c51c
+    tag: v1.1.3
   url: https://github.com/kubernetes-sigs/kube-network-policies.git
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -17,6 +17,7 @@ spec:
   chart:
     spec:
       chart: ./charts/kube-network-policies
+      reconcileStrategy: Revision
       sourceRef:
         kind: GitRepository
         name: kube-network-policies
@@ -29,7 +30,7 @@ spec:
     adminNetworkPolicy: false
     image:
       repository: registry.k8s.io/networking/kube-network-policies
-      tag: "v1.1.2@sha256:c671f98e444825d57c590c92da1b5e66070917c4d3dff1f9279775e6b73254fe"
+      tag: "v1.1.3@sha256:d9350ce205a63ba85c67795191304cef0318d084422ca44da49c4655eeba300d"
   targetNamespace: kube-system
   postRenderers:
   - kustomize:
