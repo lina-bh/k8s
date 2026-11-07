@@ -1,0 +1,19 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: miniflux
+spec:
+  # miniflux ran in default on OKE before apps/miniflux existed. Moving the
+  # workloads to the miniflux namespace would mean a new CNPG Cluster and
+  # migrating the database, so only this Kustomization lives there.
+  # Assisted-by: Claude Code:claude-opus-5-5
+  targetNamespace: default
+  patches:
+  - target:
+      group: postgresql.cnpg.io
+      kind: Cluster
+    patch: |
+      - op: add
+        path: /spec/storage/storageClass
+        value: longhorn

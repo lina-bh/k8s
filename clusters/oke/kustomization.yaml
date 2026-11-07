@@ -31,10 +31,10 @@ patches:
     namespace: flux-system
 resources:
 - flux-system
-- apps
 - kube-system
 - monitoring
 - external-secrets
 - tailscale
 - cnpg-system
 - longhorn-system
+- miniflux
