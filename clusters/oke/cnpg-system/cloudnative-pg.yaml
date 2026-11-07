@@ -1,0 +1,24 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cloudnative-pg
+spec:
+  patches:
+  # Adopt the release installed by the old flux-system/cloudnative-pg
+  # HelmRelease (default name <targetNamespace>-<name>, stored in
+  # flux-system) instead of installing a second one.
+  # Assisted-by: Claude Code:claude-opus-5-5
+  - target:
+      group: helm.toolkit.fluxcd.io
+      kind: HelmRelease
+      name: cloudnative-pg
+    patch: |
+      apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: cloudnative-pg
+      spec:
+        releaseName: cnpg-system-cloudnative-pg
+        storageNamespace: flux-system
+        targetNamespace: cnpg-system

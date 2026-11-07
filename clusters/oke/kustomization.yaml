@@ -37,3 +37,4 @@ resources:
 - monitoring
 - external-secrets
 - tailscale
+- cnpg-system
