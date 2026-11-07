@@ -10,10 +10,14 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: tailscale
-      version: 1.102.4
+      version: 1.104.2
+  install:
+    crds: CreateReplace
   interval: 24h
   targetNamespace: tailscale
   timeout: 10m0s
+  upgrade:
+    crds: CreateReplace
   values:
     apiServerProxyConfig:
       mode: "true"
@@ -21,6 +25,7 @@ spec:
       hostname: oke
       image:
         repository: docker.io/tailscale/k8s-operator
+        pullPolicy: IfNotPresent
     proxyConfig:
       image:
-        repository: docker.io/tailscale/tailscale
+        repository: ghcr.io/tailscale/tailscale
