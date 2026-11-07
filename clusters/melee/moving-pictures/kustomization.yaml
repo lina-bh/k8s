@@ -4,5 +4,7 @@ resources:
 - ../../../apps/moving-pictures
 - media.yaml
 - ../../../apps/moving-pictures/qbt
+- ../../../apps/moving-pictures/postgres
 patches:
 - path: qbt.yaml
+- path: postgres.yaml
