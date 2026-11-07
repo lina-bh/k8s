@@ -5,3 +5,7 @@ metadata:
   name: moving-pictures
   annotations:
     kustomize.toolkit.fluxcd.io/prune: disabled
+  labels:
+    # The gluetun sidecar adds NET_ADMIN, which the baseline level forbids.
+    # Assisted-by: Claude Code:claude-opus-5-5
+    pod-security.kubernetes.io/enforce: privileged
