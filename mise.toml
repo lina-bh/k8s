@@ -12,7 +12,7 @@ kubeconform = "latest"
 kube-linter = "latest"
 just = "latest"
 "aqua:home-operations/flate" = "latest"
-"npm:renovate" = { version = "latest", trust_policy_excludes = ["@yarnpkg/libzip@3.2.2"] }
+"npm:renovate" = { version = "44.222.0", trust_policy_excludes = ["@yarnpkg/libzip@3.2.2"] }
 node = "24"
 gh = "latest"
 helm = "latest"

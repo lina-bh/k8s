@@ -96,6 +96,12 @@
       "matchUpdateTypes": [
         "digest"
       ]
+    },
+    {
+      "enabled": false,
+      "matchFileNames": [
+        ".mise/locks/**"
+      ]
     }
   ],
   "prConcurrentLimit": 0,
