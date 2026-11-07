@@ -35,3 +35,4 @@ resources:
 - apps
 - kube-system
 - monitoring
+- external-secrets

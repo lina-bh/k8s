@@ -1,0 +1,6 @@
+---
+namespace: external-secrets
+resources:
+- ../../../apps/external-secrets
+patches:
+- path: external-secrets-operator.yaml
