@@ -1,0 +1,6 @@
+---
+resources:
+- ../../../../apps/tailscale/tailscale-operator/operator/base
+- externalsecret_operator-oauth.yaml
+patches:
+- path: helmrelease.yaml
