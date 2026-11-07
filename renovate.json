@@ -41,7 +41,10 @@
         "ghcr.io/home-operations/sonarr",
         "ghcr.io/home-operations/prowlarr",
         "registry.k8s.io/nfd/charts/node-feature-discovery",
-        "ghcr.io/prometheus-community/charts/prometheus-operator-crds"
+        "ghcr.io/prometheus-community/charts/prometheus-operator-crds",
+        "ghcr.io/recyclarr/recyclarr",
+        "ghcr.io/victoriametrics/helm-charts/victoria-metrics-k8s-stack",
+        "ghcr.io/project-zot/helm-charts/zot"
       ],
       "matchUpdateTypes": [
         "patch"
@@ -95,5 +98,6 @@
       ]
     }
   ],
+  "prConcurrentLimit": 0,
   "prHourlyLimit": 0
 }
