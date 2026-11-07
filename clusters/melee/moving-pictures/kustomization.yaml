@@ -1,0 +1,8 @@
+---
+namespace: moving-pictures
+resources:
+- ../../../apps/moving-pictures
+- media.yaml
+- ../../../apps/moving-pictures/qbt
+patches:
+- path: qbt.yaml

@@ -18,9 +18,9 @@ spec:
             containers:
             - name: app
               volumeMounts:
-              - name: moving-pictures
-                mountPath: /var/mnt/moving_pictures
+              - name: media
+                mountPath: /media
             volumes:
-            - name: moving-pictures
+            - name: media
               persistentVolumeClaim:
-                claimName: moving-pictures
+                claimName: media
