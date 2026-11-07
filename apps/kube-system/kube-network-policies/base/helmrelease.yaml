@@ -6,7 +6,7 @@ metadata:
 spec:
   interval: 24h
   ref:
-    commit: cf488668c33b32694acd96f9afa67689a836c51c
+    commit: efde33509c674e8add82c854ea683144e90c4313
   url: https://github.com/kubernetes-sigs/kube-network-policies.git
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
