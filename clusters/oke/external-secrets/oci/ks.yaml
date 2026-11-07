@@ -2,16 +2,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: external-secrets-config
-  namespace: flux-system
+  name: oci
 spec:
-  deletionPolicy: Orphan
   dependsOn:
   - name: external-secrets-operator
-    namespace: external-secrets
-  path: ./clusters/oke/infrastructure/configs/external-secrets/
+  interval: 1h
+  path: ./clusters/oke/external-secrets/oci/base
   prune: true
   sourceRef:
     kind: GitRepository
+    namespace: flux-system
     name: flux-system
+  timeout: 15m
   wait: true

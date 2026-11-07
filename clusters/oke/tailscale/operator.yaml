@@ -5,9 +5,9 @@ metadata:
   name: operator
 spec:
   # The OKE directory adds the operator-oauth ExternalSecret, which needs
-  # the oci ClusterSecretStore from external-secrets-config.
+  # the oci ClusterSecretStore from external-secrets/oci.
   # Assisted-by: Claude Code:claude-opus-5-5
   dependsOn:
-  - name: external-secrets-config
-    namespace: flux-system
+  - name: oci
+    namespace: external-secrets
   path: ./clusters/oke/tailscale/operator

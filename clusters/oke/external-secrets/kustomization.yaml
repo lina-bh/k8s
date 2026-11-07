@@ -2,5 +2,6 @@
 namespace: external-secrets
 resources:
 - ../../../apps/external-secrets
+- oci/ks.yaml
 patches:
 - path: external-secrets-operator.yaml
