@@ -1,0 +1,6 @@
+---
+namespace: longhorn-system
+resources:
+- ../../../apps/longhorn-system
+patches:
+- path: longhorn.yaml

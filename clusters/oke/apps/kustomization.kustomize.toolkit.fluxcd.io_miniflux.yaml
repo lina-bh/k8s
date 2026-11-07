@@ -15,6 +15,7 @@ spec:
   - name: configs
     namespace: tailscale
   - name: longhorn
+    namespace: longhorn-system
   - name: cloudnative-pg
     namespace: cnpg-system
   targetNamespace: default
