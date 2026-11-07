@@ -5,6 +5,7 @@ metadata:
   name: tailscale-config
   namespace: flux-system
 spec:
+  deletionPolicy: Orphan
   dependsOn:
   - name: tailscale-operator
   path: ./clusters/oke/infrastructure/configs/tailscale/

@@ -5,6 +5,7 @@ metadata:
   name: cloudnative-pg
   namespace: flux-system
 spec:
+  deletionPolicy: Orphan
   path: ./clusters/oke/infrastructure/controllers/cloudnativepg/
   prune: true
   sourceRef:
