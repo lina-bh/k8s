@@ -9,6 +9,12 @@ spec:
   - target:
       kind: StatefulSet
     patch: |
+      - op: add
+        path: /spec/volumeClaimTemplates/0/spec/storageClassName
+        value: nv2-ext4
+  - target:
+      kind: StatefulSet
+    patch: |
       apiVersion: apps/v1
       kind: StatefulSet
       metadata:
@@ -19,11 +25,11 @@ spec:
             containers:
             - name: app
               volumeMounts:
-              - name: moving-pictures
-                mountPath: /var/mnt/moving-pictures/tv
+              - name: media
+                mountPath: /media/tv
                 subPath: tv
                 readOnly: true
             volumes:
-            - name: moving-pictures
+            - name: media
               persistentVolumeClaim:
-                claimName: moving-pictures
+                claimName: media

@@ -5,6 +5,7 @@ patches:
 - path: postgres.yaml
 - path: sarr.yaml
 - path: recyclarr.yaml
+- path: jfin.yaml
 resources:
 - ../../../apps/moving-pictures
 - media.yaml
@@ -15,3 +16,4 @@ resources:
 - ../../../apps/moving-pictures/parr
 - ../../../apps/moving-pictures/sarr
 - ../../../apps/moving-pictures/recyclarr
+- ../../../apps/moving-pictures/jfin
