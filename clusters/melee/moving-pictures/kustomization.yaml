@@ -1,11 +1,12 @@
 ---
 namespace: moving-pictures
+patches:
+- path: qbt.yaml
+- path: postgres.yaml
 resources:
 - ../../../apps/moving-pictures
 - media.yaml
 - ../../../apps/moving-pictures/qbt
 - ../../../apps/moving-pictures/postgres
 - ../../../apps/moving-pictures/qui
-patches:
-- path: qbt.yaml
-- path: postgres.yaml
+- ../../../apps/moving-pictures/keygen
