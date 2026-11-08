@@ -69,7 +69,7 @@
 * `apps/kustomization.yaml` lists `monitoring`. `clusters/melee` includes
   `../../apps`, which is how melee gets the `monitoring` namespace and
   `prometheus-operator-crds`.
-* `components/gluetun/` is a Kustomize Component (see "gluetun sidecar").
+* `components/gluetun/` is a Kustomize Component (see "gluetun").
 * `bin/wireguard-to-secret.py NAME PROVIDER < wg.conf` prints a gluetun
   Secret from a WireGuard config. `bin/wireguard-to-env.py` prints the same
   keys as an env file.
@@ -138,6 +138,8 @@ spec:
   * `pg-password` (namespace `external-secrets`) for anything that uses the
     `pg-password` `ClusterGenerator`, and `external-secrets-operator` for
     namespaced generators;
+  * `keygen` for apps that take a key from their namespace's `keygen`
+    generator (`iv`, `parr`, `sarr`);
   * `postgres` for apps on a namespace's shared `pg` Cluster.
 
 ## Manifests
@@ -175,21 +177,27 @@ spec:
 * App pods set `automountServiceAccountToken: false`, and many set
   `hostUsers: false` (`jfin`, `sarr` and `nd` set it to `true`). App
   containers run as non-root with `readOnlyRootFilesystem: true`,
-  `allowPrivilegeEscalation: false` and all capabilities dropped. The gluetun
-  sidecar is the exception.
+  `allowPrivilegeEscalation: false` and all capabilities dropped. gluetun,
+  as a sidecar or as `parr-gluetun`, is the exception.
 
 ## Secrets
 
 * No secret values are committed.
 * Generated secrets come from External Secrets generators, with
   `refreshPolicy: CreatedOnce` and `target.deletionPolicy: Delete`: the
-  `pg-password` `ClusterGenerator` for database roles, or a namespaced
-  `Password` generator (`apps/iv/keygen`).
+  `pg-password` `ClusterGenerator` for database roles, or a namespace's
+  `keygen` `Password` generator (`apps/iv/keygen`,
+  `apps/moving-pictures/keygen`) for other keys.
+* The Prowlarr and Sonarr API keys come from `keygen`. `parr-apikey` holds
+  `PROWLARR__AUTH__APIKEY` and is loaded with `envFrom`; Prowlarr reads its
+  key only from the `Prowlarr:Auth` options section, so `PROWLARR__APIKEY`
+  is ignored. `sarr-apikey` holds `apikey`, which `sarr` reads through
+  `secretKeyRef` and `recyclarr` mounts as a file.
 * On OKE, the `ClusterSecretStore` `oci` (OCI Vault, Kustomization
   `external-secrets/oci`) supplies other values, for example
   `clusters/oke/tailscale/operator/externalsecret_operator-oauth.yaml`.
-* melee has no secret store. Secrets that cannot be generated, such as
-  `gluetun` and `sarr-apikey`, are created by hand and are not in Git.
+* melee has no secret store. Secrets that cannot be generated, such as the
+  `gluetun` WireGuard settings, are created by hand and are not in Git.
 
 ## PostgreSQL (CloudNativePG)
 
@@ -203,7 +211,9 @@ spec:
 
   The app connects through the `pg-rw` Service. Its `ks.yaml` lists
   `pg-password` (namespace `external-secrets`) and `postgres` under
-  `dependsOn`.
+  `dependsOn`. On first deploy the app can fail to log in and restart a few
+  times until CloudNativePG has applied the role's password (seen with
+  `parr`).
 * Dedicated database: the app's base has its own `Cluster`, and the app
   reads the operator's `CLUSTER-app` Secret (key `fqdn-uri`). `iv` (`iv-pg`)
   and `miniflux` work this way.
@@ -230,6 +240,15 @@ spec:
 * melee uses OpenEBS LVM LocalPV on the volume group `nv2`, through the
   StorageClasses `nv2-ext4` and `nv2-ext4-shared` (`shared: yes`), both
   mounted with an SELinux `context=` option.
+* melee has no default StorageClass, so a claim without one stays Pending.
+  Bases leave `storageClassName` unset on PVCs and `volumeClaimTemplates`,
+  and melee's overlays patch in `nv2-ext4`
+  (`clusters/melee/moving-pictures/qbt.yaml`, `sarr.yaml`).
+* `moving-pictures` on melee shares the PVC `media` (`nv2-ext4-shared`),
+  mounted at `/media` by `qbt` and `sarr`. `jfin` mounts only its `tv`
+  directory, read-only, at `/media/tv`. Every app sees the same paths, so no
+  remote path mappings are needed and imports can hardlink. The volume's
+  group is 995 with the setgid bit set.
 * melee mounts host data through static local PVs with
   `storageClassName: ""` (`clusters/melee/music/storage/`). Their size comes
   from a local-config ConfigMap through `replacements`.
@@ -237,24 +256,37 @@ spec:
 * `generic-device-plugin` exposes `/dev/net/tun` as `devic.es/tun`, and
   `intel-gpu-plugin` exposes `gpu.intel.com/i915` (used by `jfin/intel`).
 
-## gluetun sidecar
+## gluetun
 
 * `components/gluetun` adds gluetun as a native sidecar (an init container
   with `restartPolicy: Always`) to each Deployment or StatefulSet annotated
   `io.github.lina-bh/gluetun: enabled`, and points the pod's DNS at it.
 * An app opts in by listing the component under `components` in
-  `base/kustomization.yaml` and generating a `gluetun-overrides` ConfigMap
+  `base/kustomization.yaml`. It MAY generate a `gluetun-overrides` ConfigMap
   (for example `SERVER_REGIONS`, `FIREWALL_VPN_INPUT_PORTS`), as
-  `apps/moving-pictures/qbt/base` does.
-* The namespace needs the `gluetun` Secret with the WireGuard settings. The
-  sidecar requests `devic.es/tun` and adds `NET_ADMIN`, so the namespace has
-  to enforce the `privileged` pod security level.
+  `apps/moving-pictures/qbt/base` does; the sidecar's reference to it is
+  optional.
+* gluetun's firewall accepts connections to the pod's own subnet, so the
+  app's Service and Ingress reach it without `FIREWALL_INPUT_PORTS`. The app
+  cannot reach cluster Services such as `pg-rw`, though: its DNS goes to
+  gluetun, which forwards to public resolvers and blocks answers with private
+  addresses, and outbound traffic leaves only through the VPN.
+* An app that needs cluster Services uses a standalone gluetun Deployment as
+  an HTTP proxy instead, as `parr-gluetun`
+  (`apps/moving-pictures/parr/base/dep_gluetun.yaml`) does for Prowlarr's
+  indexers. Renovate updates its image pin but not the component's, because
+  it does not scan `components/`.
+* The namespace needs the `gluetun` Secret with the WireGuard settings, which
+  the sidecars and `parr-gluetun` share. Both forms request `devic.es/tun`
+  and add `NET_ADMIN`, so the namespace has to enforce the `privileged` pod
+  security level.
 
 ## Checking changes
 
-* Commands that talk to a cluster (`kubectl get`, `kubectl diff`, `flux`,
-  `helm`) need `~/.kube`, which the agent sandbox cannot read, so the user
-  has to run them.
+* `kubectl` is in `sandbox.excludedCommands`, so it runs outside the agent
+  sandbox with access to `~/.kube`. Other commands that talk to a cluster
+  (`flux`, `helm`) need `~/.kube/config`, which the sandbox cannot read, so
+  the user has to run them.
 * `just reconcile` runs `git push origin main` before reconciling. Agents
   MUST NOT run it.
 * Tools come from `mise.toml`; `yamlfmt` is installed separately.
