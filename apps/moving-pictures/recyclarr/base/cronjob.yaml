@@ -46,6 +46,9 @@ spec:
               mountPath: /run/secrets/sarr-apikey
           hostUsers: false
           restartPolicy: Never
+          securityContext:
+            fsGroup: 65534
+            fsGroupChangePolicy: OnRootMismatch
           volumes:
           - name: config
             configMap:
