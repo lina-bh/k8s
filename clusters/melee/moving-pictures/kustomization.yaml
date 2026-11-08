@@ -3,6 +3,8 @@ namespace: moving-pictures
 patches:
 - path: qbt.yaml
 - path: postgres.yaml
+- path: sarr.yaml
+- path: recyclarr.yaml
 resources:
 - ../../../apps/moving-pictures
 - media.yaml
@@ -11,3 +13,5 @@ resources:
 - ../../../apps/moving-pictures/qui
 - ../../../apps/moving-pictures/keygen
 - ../../../apps/moving-pictures/parr
+- ../../../apps/moving-pictures/sarr
+- ../../../apps/moving-pictures/recyclarr

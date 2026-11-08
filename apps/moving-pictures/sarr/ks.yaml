@@ -8,6 +8,7 @@ spec:
   - name: pg-password
     namespace: external-secrets
   - name: postgres
+  - name: keygen
   interval: 1h
   path: ./apps/moving-pictures/sarr/base
   prune: true

@@ -11,3 +11,4 @@ resources:
 - role.yaml
 - db.yaml
 - pvc.yaml
+- externalsecret_apikey.yaml
