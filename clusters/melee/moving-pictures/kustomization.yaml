@@ -10,3 +10,4 @@ resources:
 - ../../../apps/moving-pictures/postgres
 - ../../../apps/moving-pictures/qui
 - ../../../apps/moving-pictures/keygen
+- ../../../apps/moving-pictures/parr

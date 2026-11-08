@@ -1,18 +1,15 @@
 ---
+labels:
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/name: parr
+namePrefix: parr-
 resources:
 - role.yaml
 - database_main.yaml
 - dep.yaml
 - svc.yaml
 - ingress.yaml
-- dep_tor.yaml
-- svc_tor.yaml
-labels:
-- includeSelectors: true
-  pairs:
-    app.kubernetes.io/name: parr
-namePrefix: parr-
-configMapGenerator:
-- name: tor
-  files:
-  - torrc
+- externalsecret_apikey.yaml
+- dep_gluetun.yaml
+- svc_gluetun.yaml

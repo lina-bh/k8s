@@ -8,13 +8,14 @@ spec:
   - name: pg-password
     namespace: external-secrets
   - name: postgres
+  - name: keygen
   interval: 1h
   path: ./apps/moving-pictures/parr/base
   prune: true
   sourceRef:
     kind: GitRepository
-    namespace: flux-system
     name: flux-system
+    namespace: flux-system
   targetNamespace: moving-pictures
   timeout: 15m
   wait: true

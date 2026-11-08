@@ -1,0 +1,67 @@
+---
+# HTTP proxy for indexer traffic. Prowlarr itself has to reach pg-rw and
+# sarr inside the cluster, which a gluetun sidecar would cut off.
+# Assisted-by: Claude Code:claude-opus-5-5
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: gluetun
+  name: gluetun
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: gluetun
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: gluetun
+    spec:
+      automountServiceAccountToken: false
+      containers:
+      - env:
+        - name: HEALTH_SERVER_ADDRESS
+          value: 0.0.0.0:9999
+        - name: HEALTH_SMALL_CHECK_TYPE
+          value: dns
+        - name: HTTPPROXY
+          value: "on"
+        - name: PUBLICIP_ENABLED
+          value: "false"
+        - name: STORAGE_SERVERS_ENABLED
+          value: "false"
+        envFrom:
+        - secretRef:
+            name: gluetun
+        image: ghcr.io/qdm12/gluetun:latest@sha256:6c80716ec1f48ea6c525f198dbb0a658fff4dfa3e1334de5b0457d1c8c6dec0c
+        imagePullPolicy: IfNotPresent
+        name: gluetun
+        ports:
+        - containerPort: 8888
+          name: http-proxy
+        readinessProbe:
+          httpGet:
+            port: 9999
+          periodSeconds: 10
+        resources:
+          limits:
+            devic.es/tun: 1
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+            drop:
+            - ALL
+          runAsUser: 0
+        startupProbe:
+          failureThreshold: 24
+          httpGet:
+            port: 9999
+          periodSeconds: 5
+      dnsConfig:
+        nameservers:
+        - 127.0.0.1
+      dnsPolicy: None

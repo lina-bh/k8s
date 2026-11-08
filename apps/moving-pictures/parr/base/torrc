@@ -1,8 +1,0 @@
-SOCKSPort 0.0.0.0:9050
-Log info stderr
-DataDirectory /var/lib/tor
-NoExec 1
-SafeLogging relay
-Sandbox 1
-SafeSocks 1
-ExcludeExitNodes $77B3E578FDAB7A25418D34EE6D5DC9D91B5B26A0

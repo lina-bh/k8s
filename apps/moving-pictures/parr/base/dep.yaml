@@ -2,9 +2,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
   labels:
     app.kubernetes.io/component: app
+  name: app
 spec:
   replicas: 1
   selector:
@@ -23,19 +23,23 @@ spec:
         - name: PROWLARR__POSTGRES__USER
           valueFrom:
             secretKeyRef:
-              name: parr-role
               key: username
+              name: parr-role
         - name: PROWLARR__POSTGRES__HOST
           value: pg-rw
         - name: PROWLARR__POSTGRES__PASSWORD
           valueFrom:
             secretKeyRef:
-              name: parr-role
               key: password
+              name: parr-role
         - name: PROWLARR__POSTGRES__MAINDB
           value: parr
         - name: PROWLARR__LOG__DBENABLED
           value: "false"
+        envFrom:
+        - secretRef:
+            name: parr-apikey
+            optional: false
         image: ghcr.io/home-operations/prowlarr:3.0.0.5737@sha256:0954599432e16ccd86129f1eb8eb0247fd0d1591aab400f73e2010a1cda37be8
         imagePullPolicy: IfNotPresent
         name: app
