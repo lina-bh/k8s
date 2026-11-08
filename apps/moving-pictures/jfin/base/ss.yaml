@@ -35,6 +35,12 @@ spec:
           name: tmp
       hostUsers: true
       securityContext:
+        # 995 rather than 966: kubelet applies fsGroup to every volume the pod
+        # mounts, and the shared media volume is already group 995, so
+        # OnRootMismatch leaves it alone and only fixes up config.
+        # Assisted-by: Claude Code:claude-opus-5-5
+        fsGroup: 995
+        fsGroupChangePolicy: OnRootMismatch
         supplementalGroups:
         - 995
       volumes:
