@@ -1,0 +1,36 @@
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: qui-role
+  labels:
+    app.kubernetes.io/name: qui
+spec:
+  refreshPolicy: CreatedOnce
+  dataFrom:
+  - sourceRef:
+      generatorRef:
+        kind: ClusterGenerator
+        name: pg-password
+  target:
+    name: qui-role
+    deletionPolicy: Delete
+    template:
+      type: kubernetes.io/basic-auth
+      data:
+        username: qui
+        password: "{{ .password }}"
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: qui-role
+  labels:
+    app.kubernetes.io/name: qui
+spec:
+  name: qui
+  login: true
+  cluster:
+    name: pg
+  passwordSecret:
+    name: qui-role

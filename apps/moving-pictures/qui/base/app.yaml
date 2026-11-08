@@ -1,0 +1,81 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qui-app
+  labels:
+    app.kubernetes.io/name: qui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: qui
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: qui
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        fsGroup: 65534
+      containers:
+      - name: app
+        image: "ghcr.io/autobrr/qui:v1.35.0@sha256:a5b2f5faf6388cce257137c88e4b189458fd799cf9119ed476c980e5a69341b2"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 7476
+        env:
+        - name: QUI__AUTH_DISABLED
+          value: "true"
+        - name: QUI__I_ACKNOWLEDGE_THIS_IS_A_BAD_IDEA
+          value: "true"
+        - name: QUI__AUTH_DISABLED_ALLOWED_CIDRS
+          value: "10.244.0.0/24,127.0.0.0/8"
+        - name: QUI__TRACKER_ICONS_FETCH_ENABLED
+          value: "false"
+        - name: QUI__DISABLE_SELF_UPDATE
+          value: "true"
+        - name: QUI__DATABASE_ENGINE
+          value: postgres
+        - name: QUI__DATABASE_HOST
+          valueFrom:
+            secretKeyRef:
+              name: pg-app
+              key: host
+              optional: false
+        - name: QUI__DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: qui-role
+              key: username
+              optional: false
+        - name: QUI__DATABASE_PASSWORD_FILE
+          value: /run/secrets/role/password
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsGroup: 65534
+          runAsNonRoot: true
+          runAsUser: 65534
+          seccompProfile:
+            type: RuntimeDefault
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: role
+          mountPath: /run/secrets/role
+          readOnly: true
+      hostUsers: false
+      volumes:
+      - name: config
+        emptyDir: {}
+      - name: role
+        secret:
+          secretName: qui-role
+          items:
+          - key: password
+            path: password
