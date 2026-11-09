@@ -1,0 +1,22 @@
+---
+# A dedicated Cluster rather than a role on the shared pg: bitmagnet's FAQ
+# allows about 80GB of disk per 10 million torrents, which would fill pg's
+# volume and take parr, sarr and qui down with it. Migrations create the
+# btree_gin extension, which is trusted, so the app owner can install it.
+# Assisted-by: Claude Code:claude-opus-5-5
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  labels:
+    app.kubernetes.io/name: bm
+  name: bm-pg
+spec:
+  enablePDB: false
+  imageCatalogRef:
+    apiGroup: postgresql.cnpg.io
+    kind: ClusterImageCatalog
+    major: 18
+    name: postgresql-minimal-trixie
+  instances: 1
+  storage:
+    size: 20Gi

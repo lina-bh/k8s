@@ -1,0 +1,8 @@
+---
+components:
+- ../../../../components/gluetun
+resources:
+- dep.yaml
+- pg.yaml
+- svc.yaml
+- ingress.yaml
