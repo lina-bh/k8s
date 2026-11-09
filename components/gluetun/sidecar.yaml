@@ -6,10 +6,19 @@ metadata:
 spec:
   template:
     spec:
+      # gluetun reads kube-dns from /etc/resolv.conf when it starts, then
+      # points the file, which every container in the pod shares, at itself.
+      # It sends local names (no dot, or ending in .local and similar) to
+      # kube-dns and the rest to its upstream over DNS over TLS. ndots:1 lets
+      # public names skip the search domains. If the gluetun container
+      # restarts on its own, it reads back 127.0.0.1 and local names stop
+      # resolving until the pod is recreated.
+      # Assisted-by: Claude Code:claude-opus-5-5
       dnsConfig:
-        nameservers:
-        - 127.0.0.1
-      dnsPolicy: None
+        options:
+        - name: ndots
+          value: "1"
+      dnsPolicy: ClusterFirst
       initContainers:
       - envFrom:
         - configMapRef:

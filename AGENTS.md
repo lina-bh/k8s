@@ -276,22 +276,31 @@ spec:
 
 * `components/gluetun` adds gluetun as a native sidecar (an init container
   with `restartPolicy: Always`) to each Deployment or StatefulSet annotated
-  `io.github.lina-bh/gluetun: enabled`, and points the pod's DNS at it.
+  `io.github.lina-bh/gluetun: enabled`.
 * An app opts in by listing the component under `components` in
   `base/kustomization.yaml`. It MAY generate a `gluetun-overrides` ConfigMap
   (for example `SERVER_REGIONS`, `FIREWALL_VPN_INPUT_PORTS`), as
   `apps/moving-pictures/qbt/base` does; the sidecar's reference to it is
   optional.
 * gluetun's firewall accepts connections to the pod's own subnet, so the
-  app's Service and Ingress reach it without `FIREWALL_INPUT_PORTS`. The app
-  cannot reach cluster Services such as `pg-rw`, though: its DNS goes to
-  gluetun, which forwards to public resolvers and blocks answers with private
-  addresses, and outbound traffic leaves only through the VPN.
-* An app that needs cluster Services uses a standalone gluetun Deployment as
-  an HTTP proxy instead, as `parr-gluetun`
-  (`apps/moving-pictures/parr/base/dep_gluetun.yaml`) does for Prowlarr's
-  indexers. Renovate updates its image pin but not the component's, because
-  it does not scan `components/`.
+  app's Service and Ingress reach it without `FIREWALL_INPUT_PORTS`.
+  Outbound traffic leaves through the VPN, except to melee's Service CIDR
+  (`10.96.0.0/12`), which `config.sh` lists in `FIREWALL_OUTBOUND_SUBNETS`.
+* The pod keeps `dnsPolicy: ClusterFirst`, with `ndots:1`. gluetun (v3.41.0
+  and later) reads kube-dns from `/etc/resolv.conf` once, when its process
+  starts, then points the file, which every container in the pod shares, at
+  itself. It forwards local names (no dot, or ending in `.local` and
+  similar) to kube-dns and the rest to its upstream over DNS over TLS, so the
+  app can reach cluster Services such as `pg-rw`. `bitmagnet` relies on this.
+  * If the gluetun container restarts without the pod, it reads back
+    `127.0.0.1` and local names stop resolving until the pod is recreated.
+    This comes from gluetun's source and has not been observed.
+* `parr-gluetun` (`apps/moving-pictures/parr/base/dep_gluetun.yaml`) is a
+  standalone gluetun Deployment that Prowlarr uses as an HTTP proxy for its
+  indexers. It was set up before the sidecar could reach cluster Services.
+  Renovate updates its image pin but not the component's: the `components/`
+  pattern under `kubernetes` in `renovate.json` lacks its closing `/`, so
+  Renovate treats it as a glob, which matches nothing.
 * The namespace needs the `gluetun` Secret with the WireGuard settings, which
   the sidecars and `parr-gluetun` share. Both forms request `devic.es/tun`
   and add `NET_ADMIN`, so the namespace has to enforce the `privileged` pod
