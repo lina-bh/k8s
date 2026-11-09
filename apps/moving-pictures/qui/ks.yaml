@@ -5,7 +5,10 @@ metadata:
   name: qui
 spec:
   dependsOn:
-  - name: postgres
+  - name: cloudnative-pg
+    namespace: cnpg-system
+  - name: external-secrets-operator
+    namespace: external-secrets
   interval: 1h
   path: ./apps/moving-pictures/qui/base
   prune: true

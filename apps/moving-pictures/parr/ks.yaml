@@ -5,10 +5,10 @@ metadata:
   name: parr
 spec:
   dependsOn:
-  - name: pg-password
+  - name: cloudnative-pg
+    namespace: cnpg-system
+  - name: external-secrets-operator
     namespace: external-secrets
-  - name: postgres
-  - name: keygen
   interval: 1h
   path: ./apps/moving-pictures/parr/base
   prune: true

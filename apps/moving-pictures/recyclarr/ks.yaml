@@ -4,8 +4,7 @@ kind: Kustomization
 metadata:
   name: recyclarr
 spec:
-  dependsOn:
-  - name: sarr
+  dependsOn: []
   interval: 1h
   path: ./apps/moving-pictures/recyclarr/base
   prune: true

@@ -4,8 +4,6 @@ kind: Kustomization
 metadata:
   name: intel-gpu-plugin-ds
 spec:
-  dependsOn:
-  - name: intel-node-feature-rules
   interval: 24h
   patches:
   - patch: |

@@ -21,8 +21,7 @@ kind: Kustomization
 metadata:
   name: configs
 spec:
-  dependsOn:
-  - name: cloudnative-pg
+  dependsOn: []
   interval: 1h
   path: ./apps/cnpg-system/cloudnative-pg/configs/base
   prune: true

@@ -4,8 +4,7 @@ kind: Kustomization
 metadata:
   name: descheduler
 spec:
-  dependsOn:
-  - name: metrics-server
+  dependsOn: []
   interval: 1h
   path: ./apps/kube-system/descheduler/base
   prune: true

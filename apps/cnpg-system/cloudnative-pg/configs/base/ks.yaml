@@ -15,7 +15,8 @@ kind: Kustomization
 metadata:
   name: artifacts
 spec:
-  dependsOn: []
+  dependsOn:
+  - name: cloudnative-pg
   interval: 1h
   path: ./image-catalogs
   prune: true

@@ -4,10 +4,11 @@ kind: Kustomization
 metadata:
   name: operator
 spec:
-  # The OKE directory adds the operator-oauth ExternalSecret, which needs
-  # the oci ClusterSecretStore from external-secrets/oci.
+  # The OKE directory adds the operator-oauth ExternalSecret, whose CRD comes
+  # from external-secrets-operator. The oci ClusterSecretStore it reads is not
+  # needed to apply it: ESO retries the sync until the store exists.
   # Assisted-by: Claude Code:claude-opus-5-5
   dependsOn:
-  - name: oci
+  - name: external-secrets-operator
     namespace: external-secrets
   path: ./clusters/oke/tailscale/operator

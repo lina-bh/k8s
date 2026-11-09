@@ -89,8 +89,7 @@
 * A strategic-merge patch on a Flux `Kustomization` replaces lists such as
   `spec.dependsOn` and `spec.patches` instead of merging them, because
   kustomize has no merge keys for this CRD. To append, use a JSON 6902 patch
-  with `op: add` and `path: /spec/dependsOn/-`, as
-  `clusters/oke/miniflux/kustomization.yaml` does.
+  with `op: add` and a path such as `/spec/patches/-`.
 * To add resources to an app on one cluster only, point the Kustomization's
   `spec.path` at a cluster directory whose `kustomization.yaml` includes the
   app's base plus the extras, as `clusters/oke/tailscale/operator/` does.
@@ -129,18 +128,34 @@ spec:
   cluster-scoped objects omit it (`pg-password`, `oci`).
 * With `wait: true` a Kustomization becomes Ready only once everything it
   applied is healthy. With `wait: false` it is Ready as soon as the apply
-  succeeds, so a Kustomization that others list in `dependsOn` SHOULD set
-  `wait: true`. `metrics-server` does not yet.
-* Common `dependsOn` entries:
-  * `cloudnative-pg` and `artifacts` (namespace `cnpg-system`) for anything
-    that creates a CloudNativePG `Cluster`; `artifacts` provides the
-    `ClusterImageCatalog`s;
-  * `pg-password` (namespace `external-secrets`) for anything that uses the
-    `pg-password` `ClusterGenerator`, and `external-secrets-operator` for
-    namespaced generators;
-  * `keygen` for apps that take a key from their namespace's `keygen`
-    generator (`iv`, `parr`, `sarr`);
-  * `postgres` for apps on a namespace's shared `pg` Cluster.
+  succeeds, before a HelmRelease it applied has installed any CRDs, so a
+  Kustomization that others list in `dependsOn` SHOULD set `wait: true`.
+
+### `dependsOn`
+
+* A Kustomization SHOULD list another in `dependsOn` only when its own
+  objects cannot be applied without it, which in practice means the other
+  installs the CRDs (and admission webhooks) for custom resources it applies.
+* SHOULD NOT add an entry for something that only has to exist at run time:
+  a Secret, generator or secret store, a database `Cluster`, an image
+  catalog, a StorageClass, a ProxyGroup, or another app's Service or API.
+  Objects that refer to it still apply, and CloudNativePG and External
+  Secrets retry until it appears (see "Flux, Helm, CloudNativePG and External
+  Secrets behaviour").
+* The entry goes on the Kustomization that applies the custom resources. A
+  Kustomization that applies only Flux sources and inner Kustomizations
+  needs none; the inner one carries it, as
+  `apps/cnpg-system/cloudnative-pg/configs/base/ks.yaml` (`artifacts`) and
+  `apps/kube-system/intel-gpu-plugin/base/fluxtomisation_nfr.yaml` do.
+* The CRD providers:
+  * `cloudnative-pg` (namespace `cnpg-system`): `Cluster`, `Database`,
+    `DatabaseRole`, `ClusterImageCatalog`;
+  * `external-secrets-operator` (namespace `external-secrets`):
+    `ExternalSecret`, `ClusterSecretStore`, `Password`, `ClusterGenerator`;
+  * `operator` (namespace `tailscale`): `ProxyGroup`, `ProxyClass`;
+  * `node-feature-discovery` (namespace `kube-system`): `NodeFeatureRule`;
+  * `prometheus-operator-crds` (namespace `monitoring`): the
+    `monitoring.coreos.com` kinds.
 
 ## Manifests
 
@@ -210,10 +225,11 @@ spec:
   * a `Database` owned by that role.
 
   The app connects through the `pg-rw` Service. Its `ks.yaml` lists
-  `pg-password` (namespace `external-secrets`) and `postgres` under
-  `dependsOn`. On first deploy the app can fail to log in and restart a few
-  times until CloudNativePG has applied the role's password (seen with
-  `parr`).
+  `cloudnative-pg` (namespace `cnpg-system`) and `external-secrets-operator`
+  (namespace `external-secrets`) under `dependsOn`, for the CRDs, but not
+  `pg-password` or `postgres`. On first deploy the app can fail to log in and
+  restart a few times until the role's password exists and CloudNativePG has
+  applied it (seen with `parr`).
 * Dedicated database: the app's base has its own `Cluster`, and the app
   reads the operator's `CLUSTER-app` Secret (key `fqdn-uri`). `iv` (`iv-pg`)
   and `miniflux` work this way.
@@ -323,10 +339,10 @@ spec:
   directory tree, so `kubectl kustomize` fails on them.
 * kubeconform downloads its schemas, so it needs network access.
 
-## Flux, Helm and CloudNativePG behaviour
+## Flux, Helm, CloudNativePG and External Secrets behaviour
 
-Checked against kustomize-controller v1.10.1, fluxcd/pkg/ssa v0.83.0 and
-CloudNativePG 1.30.1:
+Checked against kustomize-controller v1.10.1, fluxcd/pkg/ssa v0.83.0,
+CloudNativePG 1.30.1 and External Secrets v2.14.0:
 
 * When a Flux `Kustomization` takes over an object that already exists, for
   example one created by `kubectl apply`, it patches the object in place with
@@ -345,6 +361,15 @@ CloudNativePG 1.30.1:
   deleting the resource leaves the PostgreSQL database in place. Its
   `spec.name`, `spec.cluster` and locale fields cannot be changed after
   creation.
+* CloudNativePG's `Cluster` webhook does not look up the image catalog named
+  in `imageCatalogRef`, and the operator watches `ImageCatalog`s and
+  `ClusterImageCatalog`s and requeues the Clusters that refer to them. A
+  Cluster applied before its catalog therefore starts once the catalog
+  appears.
+* External Secrets' `ExternalSecret` webhook checks only the object itself,
+  not the store or generator it refers to. When a sync fails, for example
+  because the generator does not exist yet, the controller returns the error
+  and controller-runtime requeues it with backoff.
 
 From the Flux HelmRelease documentation (both clusters run helm-controller
 v1.7.1):

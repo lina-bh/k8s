@@ -7,8 +7,6 @@ spec:
   dependsOn:
   - name: cloudnative-pg
     namespace: cnpg-system
-  - name: artifacts
-    namespace: cnpg-system
   interval: 1h
   path: ./apps/moving-pictures/postgres/base
   prune: true

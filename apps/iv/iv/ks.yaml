@@ -5,11 +5,10 @@ metadata:
   name: iv
 spec:
   dependsOn:
-  - name: keygen
   - name: cloudnative-pg
     namespace: cnpg-system
-  - name: artifacts
-    namespace: cnpg-system
+  - name: external-secrets-operator
+    namespace: external-secrets
   interval: 1h
   path: ./apps/iv/iv/base
   prune: true

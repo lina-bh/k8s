@@ -5,13 +5,3 @@ resources:
 - ../../../apps/miniflux/miniflux
 patches:
 - path: miniflux.yaml
-- target:
-    group: kustomize.toolkit.fluxcd.io
-    kind: Kustomization
-    name: miniflux
-  patch: |
-    - op: add
-      path: /spec/dependsOn/-
-      value:
-        name: longhorn
-        namespace: longhorn-system

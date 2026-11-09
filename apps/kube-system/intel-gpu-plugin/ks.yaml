@@ -4,8 +4,7 @@ kind: Kustomization
 metadata:
   name: intel-gpu-plugin
 spec:
-  dependsOn:
-  - name: node-feature-discovery
+  dependsOn: []
   interval: 1h
   path: ./apps/kube-system/intel-gpu-plugin/base
   prune: true
