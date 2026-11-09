@@ -17,7 +17,7 @@
   "kubernetes": {
     "managerFilePatterns": [
       "/^apps/.+\\.ya?ml$/",
-      "/^components/.+\\.ya?ml$"
+      "/^components/.+\\.ya?ml$/"
     ]
   },
   "packageRules": [
