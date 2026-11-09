@@ -46,6 +46,8 @@ spec:
           value: /run/secrets/role/password
         - name: QUI__SESSION_SECRET_FILE
           value: /run/secrets/session/secret
+        - name: QUI__SESSION_COOKIE_SECURE
+          value: "true"
         image: "ghcr.io/autobrr/qui:v1.35.0@sha256:a5b2f5faf6388cce257137c88e4b189458fd799cf9119ed476c980e5a69341b2"
         imagePullPolicy: IfNotPresent
         name: app
