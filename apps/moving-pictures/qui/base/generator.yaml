@@ -1,0 +1,12 @@
+---
+apiVersion: generators.external-secrets.io/v1alpha1
+kind: Password
+metadata:
+  labels:
+    app.kubernetes.io/name: qui
+  name: qui-session
+spec:
+  allowRepeat: true
+  length: 64
+  noUpper: true
+  symbols: 0
