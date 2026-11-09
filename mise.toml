@@ -2,6 +2,9 @@
 lockfile = true
 lockfile_platforms = ["linux-x64"]
 
+[env]
+FLATE_CACHE_DIR = "${HOME}/.cache/flate"
+
 [env._]
 file = [".env.local"]
 
@@ -11,7 +14,7 @@ flux2 = "2.10"
 kubeconform = "latest"
 kube-linter = "latest"
 just = "latest"
-"aqua:home-operations/flate" = "0.7.1"
+"aqua:home-operations/flate" = "0.7.3"
 "npm:renovate" = { version = "44.222.0", trust_policy_excludes = ["@yarnpkg/libzip@3.2.2"] }
 node = "24"
 gh = "latest"
