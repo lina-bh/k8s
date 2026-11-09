@@ -12,10 +12,15 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/component: app
-  # Each pod opens its own VPN connection; do not run two at once.
+  # Each pod opens its own VPN connection, so stop the old pod before
+  # starting the new one. Not Recreate: the live object carries the
+  # defaulted rollingUpdate fields, which Flux does not own, so switching
+  # the type fails validation.
   # Assisted-by: Claude Code:claude-opus-5-5
   strategy:
-    type: Recreate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
   template:
     metadata:
       labels:
