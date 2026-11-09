@@ -10,15 +10,14 @@
   ],
   "flux": {
     "managerFilePatterns": [
-      "/^apps/.+\\.ya?ml$/",
-      "/^clusters/oke/.+\\.ya?ml$/"
+      "/^apps/.+\\.ya?ml$/"
     ]
   },
   "ignoreTests": true,
   "kubernetes": {
     "managerFilePatterns": [
       "/^apps/.+\\.ya?ml$/",
-      "/^clusters/oke/.+\\.ya?ml$/"
+      "/^components/.+\\.ya?ml$"
     ]
   },
   "packageRules": [
