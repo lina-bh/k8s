@@ -1,4 +1,6 @@
 ---
+components:
+- ../../../../components/gluetun
 labels:
 - includeSelectors: true
   pairs:
@@ -11,5 +13,3 @@ resources:
 - svc.yaml
 - ingress.yaml
 - externalsecret_apikey.yaml
-- dep_gluetun.yaml
-- svc_gluetun.yaml

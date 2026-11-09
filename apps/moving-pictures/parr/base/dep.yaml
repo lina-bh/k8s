@@ -2,6 +2,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    io.github.lina-bh/gluetun: enabled
   labels:
     app.kubernetes.io/component: app
   name: app
@@ -10,6 +12,10 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/component: app
+  # Each pod opens its own VPN connection; do not run two at once.
+  # Assisted-by: Claude Code:claude-opus-5-5
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:

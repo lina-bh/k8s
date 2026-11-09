@@ -192,8 +192,8 @@ spec:
 * App pods set `automountServiceAccountToken: false`, and many set
   `hostUsers: false` (`jfin`, `sarr` and `nd` set it to `true`). App
   containers run as non-root with `readOnlyRootFilesystem: true`,
-  `allowPrivilegeEscalation: false` and all capabilities dropped. gluetun,
-  as a sidecar or as `parr-gluetun`, is the exception.
+  `allowPrivilegeEscalation: false` and all capabilities dropped. The gluetun
+  sidecar is the exception.
 
 ## Secrets
 
@@ -291,20 +291,18 @@ spec:
   starts, then points the file, which every container in the pod shares, at
   itself. It forwards local names (no dot, or ending in `.local` and
   similar) to kube-dns and the rest to its upstream over DNS over TLS, so the
-  app can reach cluster Services such as `pg-rw`. `bitmagnet` relies on this.
+  app can reach cluster Services such as `pg-rw`. Prowlarr (`parr`) relies on
+  this for `pg-rw` and `sarr-app`.
   * If the gluetun container restarts without the pod, it reads back
     `127.0.0.1` and local names stop resolving until the pod is recreated.
     This comes from gluetun's source and has not been observed.
-* `parr-gluetun` (`apps/moving-pictures/parr/base/dep_gluetun.yaml`) is a
-  standalone gluetun Deployment that Prowlarr uses as an HTTP proxy for its
-  indexers. It was set up before the sidecar could reach cluster Services.
-  Renovate updates its image pin but not the component's: the `components/`
+* Renovate does not update the component's image pin: the `components/`
   pattern under `kubernetes` in `renovate.json` lacks its closing `/`, so
   Renovate treats it as a glob, which matches nothing.
 * The namespace needs the `gluetun` Secret with the WireGuard settings, which
-  the sidecars and `parr-gluetun` share. Both forms request `devic.es/tun`
-  and add `NET_ADMIN`, so the namespace has to enforce the `privileged` pod
-  security level.
+  the sidecars share. The sidecar requests `devic.es/tun` and adds
+  `NET_ADMIN`, so the namespace has to enforce the `privileged` pod security
+  level.
 
 ## Checking changes
 
