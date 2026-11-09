@@ -95,6 +95,9 @@
       ],
       "matchUpdateTypes": [
         "digest"
+      ],
+      "schedule": [
+        "* * * * 1"
       ]
     },
     {
