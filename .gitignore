@@ -4,3 +4,4 @@
 .talos/
 terraform.tfstate*
 .claude/
+TODO.md
