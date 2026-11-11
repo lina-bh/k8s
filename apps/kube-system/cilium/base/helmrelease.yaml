@@ -1,0 +1,28 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: cilium
+spec:
+  interval: 24h
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    digest: "sha256:712e1f65bf30533d117d1996ac3ace3efdb2521302d31ee887b1e45806bd6b64"
+    tag: 1.20.4
+  url: oci://quay.io/cilium/charts/cilium
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cilium
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: cilium
+  interval: 24h
+  releaseName: cilium
+  valuesFrom:
+  - kind: ConfigMap
+    name: cilium-values

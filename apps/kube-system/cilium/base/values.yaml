@@ -1,0 +1,46 @@
+---
+bpf:
+  hostLegacyRouting: true
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
+hubble:
+  relay:
+    enabled: true
+  ui:
+    enabled: true
+ipam:
+  mode: kubernetes
+operator:
+  replicas: 1
+  tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+  - key: node.kubernetes.io/not-ready
+    operator: Exists
+  - key: node.cloudprovider.kubernetes.io/uninitialized
+    operator: Exists
+  - key: node.kubernetes.io/unschedulable
+    operator: Exists
+securityContext:
+  capabilities:
+    ciliumAgent:
+    - CHOWN
+    - KILL
+    - NET_ADMIN
+    - NET_RAW
+    - IPC_LOCK
+    - SYS_ADMIN
+    - SYS_RESOURCE
+    - DAC_OVERRIDE
+    - FOWNER
+    - SETGID
+    - SETUID
+    - SYSLOG
+    cleanCiliumState:
+    - NET_ADMIN
+    - SYS_ADMIN
+    - SYS_RESOURCE
+sysctlfix:
+  enabled: false

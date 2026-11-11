@@ -5,5 +5,6 @@ resources:
 - ../../../apps/kube-system/intel-gpu-plugin
 - ../../../apps/kube-system/metrics-server
 - ../../../apps/kube-system/node-feature-discovery
+- ../../../apps/kube-system/cilium
 patches:
 - path: metrics-server.yaml

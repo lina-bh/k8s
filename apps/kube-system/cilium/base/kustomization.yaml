@@ -1,0 +1,11 @@
+---
+configMapGenerator:
+- files:
+  - values.yaml
+  name: cilium-values
+  options:
+    disableNameSuffixHash: true
+    labels:
+      reconcile.fluxcd.io/watch: Enabled
+resources:
+- helmrelease.yaml
