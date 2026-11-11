@@ -3,6 +3,10 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
   name: qui-db
+  labels:
+    app.kubernetes.io/name: qbt
+    app.kubernetes.io/component: qui
+    app.kubernetes.io/part-of: qbt
 spec:
   cluster:
     name: pg

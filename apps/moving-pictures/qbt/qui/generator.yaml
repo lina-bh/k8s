@@ -3,7 +3,9 @@ apiVersion: generators.external-secrets.io/v1alpha1
 kind: Password
 metadata:
   labels:
-    app.kubernetes.io/name: qui
+    app.kubernetes.io/name: qbt
+    app.kubernetes.io/component: qui
+    app.kubernetes.io/part-of: qbt
   name: qui-session
 spec:
   allowRepeat: true

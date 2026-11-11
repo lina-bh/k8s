@@ -4,6 +4,12 @@ kind: Kustomization
 metadata:
   name: qbt
 spec:
+  dependsOn:
+  - name: cloudnative-pg
+    namespace: cnpg-system
+  - name: external-secrets-operator
+    namespace: external-secrets
+  path: ./apps/moving-pictures/qbt/qui
   patches:
   - target:
       kind: StatefulSet
@@ -23,6 +29,10 @@ spec:
           spec:
             containers:
             - name: app
+              volumeMounts:
+              - name: media
+                mountPath: /media
+            - name: qui
               volumeMounts:
               - name: media
                 mountPath: /media

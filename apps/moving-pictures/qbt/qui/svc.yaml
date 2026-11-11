@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: qui-app
+  labels:
+    app.kubernetes.io/name: qbt
+    app.kubernetes.io/component: qui
+    app.kubernetes.io/part-of: qbt
+spec:
+  ports:
+  - name: http
+    port: 80
+    targetPort: qui
+  selector:
+    app.kubernetes.io/name: qbt

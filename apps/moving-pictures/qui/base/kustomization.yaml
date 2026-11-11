@@ -1,9 +1,0 @@
----
-resources:
-- app.yaml
-- svc.yaml
-- role.yaml
-- db.yaml
-- ingress.yaml
-- generator.yaml
-- externalsecret_session.yaml

@@ -5,6 +5,10 @@ metadata:
   name: qui-app
   annotations:
     tailscale.com/proxy-group: ingress
+  labels:
+    app.kubernetes.io/name: qbt
+    app.kubernetes.io/component: qui
+    app.kubernetes.io/part-of: qbt
 spec:
   ingressClassName: tailscale
   tls:

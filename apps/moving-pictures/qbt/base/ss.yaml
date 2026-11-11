@@ -4,10 +4,10 @@ kind: StatefulSet
 metadata:
   annotations:
     io.github.lina-bh/gluetun: enabled
-  name: app
+  name: qbt-app
 spec:
   replicas: 1
-  serviceName: app
+  serviceName: qbt-app
   template:
     spec:
       automountServiceAccountToken: false

@@ -1,21 +1,11 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  labels:
-    app.kubernetes.io/name: qui
-  name: qui-app
+  name: qbt-app
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: qui
   template:
-    metadata:
-      labels:
-        app.kubernetes.io/name: qui
     spec:
-      automountServiceAccountToken: false
       containers:
       - env:
         - name: QUI__AUTH_DISABLED
@@ -25,7 +15,7 @@ spec:
         - name: QUI__AUTH_DISABLED_ALLOWED_CIDRS
           value: "10.244.0.0/24,127.0.0.0/8"
         - name: QUI__TRACKER_ICONS_FETCH_ENABLED
-          value: "false"
+          value: "true"
         - name: QUI__DISABLE_SELF_UPDATE
           value: "true"
         - name: QUI__DATABASE_ENGINE
@@ -50,43 +40,42 @@ spec:
           value: "true"
         image: "ghcr.io/autobrr/qui:v1.35.0@sha256:a5b2f5faf6388cce257137c88e4b189458fd799cf9119ed476c980e5a69341b2"
         imagePullPolicy: IfNotPresent
-        name: app
+        name: qui
         ports:
         - containerPort: 7476
-          name: http
+          name: qui
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
             drop:
             - ALL
           readOnlyRootFilesystem: true
-          runAsGroup: 65534
+          runAsGroup: 995
           runAsNonRoot: true
-          runAsUser: 65534
+          runAsUser: 968
           seccompProfile:
             type: RuntimeDefault
+          seLinuxOptions:
+            level: s0
         volumeMounts:
         - mountPath: /config
-          name: config
+          name: qui-config
         - mountPath: /run/secrets/role
-          name: role
+          name: qui-role
           readOnly: true
         - mountPath: /run/secrets/session
-          name: session
+          name: qui-session
           readOnly: true
-      hostUsers: false
-      securityContext:
-        fsGroup: 65534
       volumes:
       - emptyDir: {}
-        name: config
-      - name: role
+        name: qui-config
+      - name: qui-role
         secret:
           items:
           - key: password
             path: password
           secretName: qui-role
-      - name: session
+      - name: qui-session
         secret:
           items:
           - key: QUI__SESSION_SECRET

@@ -4,7 +4,9 @@ kind: ExternalSecret
 metadata:
   name: qui-role
   labels:
-    app.kubernetes.io/name: qui
+    app.kubernetes.io/name: qbt
+    app.kubernetes.io/component: qui
+    app.kubernetes.io/part-of: qbt
 spec:
   refreshPolicy: CreatedOnce
   dataFrom:
@@ -26,7 +28,9 @@ kind: DatabaseRole
 metadata:
   name: qui-role
   labels:
-    app.kubernetes.io/name: qui
+    app.kubernetes.io/name: qbt
+    app.kubernetes.io/component: qui
+    app.kubernetes.io/part-of: qbt
 spec:
   name: qui
   login: true

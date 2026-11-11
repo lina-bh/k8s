@@ -12,7 +12,6 @@ resources:
 - media.yaml
 - ../../../apps/moving-pictures/qbt
 - ../../../apps/moving-pictures/postgres
-- ../../../apps/moving-pictures/qui
 - ../../../apps/moving-pictures/keygen
 - ../../../apps/moving-pictures/parr
 - ../../../apps/moving-pictures/sarr
