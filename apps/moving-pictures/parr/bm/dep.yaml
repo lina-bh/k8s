@@ -20,6 +20,8 @@ spec:
               key: fqdn-uri
               name: bm-pg-app
               optional: false
+        - name: CLASSIFIER_DELETE_XXX
+          value: "true"
         image: "ghcr.io/bitmagnet-io/bitmagnet:v0.10.1-beta.1@sha256:9673a7c74b8aaf3471e44425ee23a88eaad0b03892c06ace7210e8d33bab2117"
         imagePullPolicy: IfNotPresent
         name: bm
