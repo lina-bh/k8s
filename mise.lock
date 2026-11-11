@@ -3,14 +3,14 @@
 lockfile_version = 4
 
 [[tools."aqua:home-operations/flate"]]
-version = "0.7.3"
+version = "0.6.5"
 backend = "aqua:home-operations/flate"
-specifiers = ["0.7.3"]
+specifiers = ["0.6"]
 
 [tools."aqua:home-operations/flate"."platforms.linux-x64"]
-checksum = "sha256:05d3c79447647e95329aa45c7035e7ebac3a120942972e78819deadc3bf0afeb"
-url = "https://github.com/home-operations/flate/releases/download/v0.7.3/flate_0.7.3_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/727305354"
+checksum = "sha256:37eb0cd91a6752340754375743aa616c263cd8367ce594abd42ee955e1ec0099"
+url = "https://github.com/home-operations/flate/releases/download/v0.6.5/flate_0.6.5_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/541337294"
 provenance = "cosign"
 
 [[tools.flux2]]
@@ -42,6 +42,16 @@ specifiers = ["latest"]
 [tools.helm."platforms.linux-x64"]
 checksum = "sha256:0403a88ae20913d11b10a2467b50087721fea7581736da6b9d3992f5357fe54b"
 url = "https://get.helm.sh/helm-v4.3.1-linux-amd64.tar.gz"
+
+[[tools.helm-diff]]
+version = "3.15.15"
+backend = "github:databus23/helm-diff"
+specifiers = ["3.15.15"]
+
+[tools.helm-diff."platforms.linux-x64"]
+checksum = "sha256:504e99410611daa70702362e1b10dc74929df8a912cb3f6b5d21d1ee9d0cb7d9"
+url = "https://github.com/databus23/helm-diff/releases/download/v3.15.15/helm-diff-linux-amd64.tgz"
+url_api = "https://api.github.com/repos/databus23/helm-diff/releases/assets/589788383"
 
 [[tools.just]]
 version = "1.59.0"

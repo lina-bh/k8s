@@ -14,9 +14,14 @@ flux2 = "2.10"
 kubeconform = "latest"
 kube-linter = "latest"
 just = "latest"
-"aqua:home-operations/flate" = "0.7.3"
+"aqua:home-operations/flate" = "0.6"
 "npm:renovate" = { version = "44.222.0", trust_policy_excludes = ["@yarnpkg/libzip@3.2.2"] }
 node = "24"
 gh = "latest"
 helm = "latest"
 kustomize = "latest"
+
+[tools.helm-diff]
+version = "3.15.15"
+depends = ["helm"]
+postinstall = "helm plugin install $MISE_TOOL_INSTALL_PATH/diff"
