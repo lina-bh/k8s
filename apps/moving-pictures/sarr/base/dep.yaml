@@ -64,3 +64,4 @@ spec:
           claimName: config
       securityContext:
         fsGroup: 995
+        fsGroupChangePolicy: OnRootMismatch
