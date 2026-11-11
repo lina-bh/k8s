@@ -12,7 +12,8 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-      - image: ghcr.io/home-operations/qbittorrent:5.3.0@sha256:5a858e61f94cf2712391db32ed03556576c700858f3e62c4c6fcde262443ebd8
+      - command: ["/usr/bin/catatonit", "--", "/bin/sh", "-c", "umask 002 && exec /entrypoint.sh"]
+        image: ghcr.io/home-operations/qbittorrent:5.3.0@sha256:5a858e61f94cf2712391db32ed03556576c700858f3e62c4c6fcde262443ebd8
         imagePullPolicy: IfNotPresent
         name: app
         ports:
