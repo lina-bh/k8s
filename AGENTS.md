@@ -398,14 +398,30 @@ CloudNativePG 1.30.1 and External Secrets v2.14.0:
     another Kustomization needs the annotation first. CloudNativePG's PVCs
     have an ownerReference to their `Cluster`, so deleting the `Cluster`
     deletes its volumes.
-  * `bm-pg` on melee carries the annotation, set with
-    `kubectl annotate --field-manager flux-client-side-apply` when it moved
-    from the `bm` Kustomization to `parr`. It is not in Git, and Flux leaves
-    it in place because it does not take over that manager's fields. To
-    remove it:
+  * To set the annotation on a live object without putting it in Git, use
+    `kubectl annotate --field-manager flux-client-side-apply`. kubectl's
+    default manager for `annotate` is `kubectl-annotate`. That name starts
+    with `kubectl`, so Flux takes the field over and removes the annotation
+    on the next reconcile. `flux-client-side-apply` matches neither
+    `kubectl` nor `before-first-apply`, so the annotation stays. `bm-pg`'s
+    annotation was set this way on 2026-11-11 and was still there after
+    `parr`'s later reconciles. `kubectl get --show-managed-fields` shows
+    which manager owns a field.
+  * Objects on melee that carry the annotation this way (not in Git):
+    * `bm-pg` (`Cluster`), from its move from the `bm` Kustomization to
+      `parr`;
+    * the ExternalSecrets `qui-role` and `qui-session`, the Database
+      `qui-db` and the DatabaseRole `qui-role`, for the move from the `qui`
+      Kustomization to `qbt` (`apps/moving-pictures/qbt/qui`).
+
+    To remove it once a move has finished:
 
     ```sh
     kubectl annotate -n moving-pictures cluster bm-pg \
+      kustomize.toolkit.fluxcd.io/prune-
+    kubectl annotate -n moving-pictures \
+      externalsecret/qui-role externalsecret/qui-session \
+      database/qui-db databaserole/qui-role \
       kustomize.toolkit.fluxcd.io/prune-
     ```
 * Flux deletes and recreates an object only when both of these hold:
