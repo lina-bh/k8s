@@ -1,0 +1,14 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: rarr-role
+  labels:
+    app.kubernetes.io/name: rarr
+spec:
+  name: rarr
+  login: true
+  cluster:
+    name: pg
+  passwordSecret:
+    name: rarr-role

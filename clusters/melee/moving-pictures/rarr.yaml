@@ -1,0 +1,30 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: rarr
+spec:
+  patches:
+  - target:
+      kind: StatefulSet
+    patch: |
+      - op: add
+        path: /spec/volumeClaimTemplates/0/spec/storageClassName
+        value: nv2-ext4
+  - patch: |
+      apiVersion: apps/v1
+      kind: StatefulSet
+      metadata:
+        name: rarr-app
+      spec:
+        template:
+          spec:
+            containers:
+            - name: app
+              volumeMounts:
+              - name: media
+                mountPath: /media
+            volumes:
+            - name: media
+              persistentVolumeClaim:
+                claimName: media

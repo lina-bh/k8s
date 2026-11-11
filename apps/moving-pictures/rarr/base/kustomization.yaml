@@ -1,0 +1,9 @@
+---
+resources:
+- app.yaml
+- databaserole.yaml
+- database.yaml
+- externalsecret_apikey.yaml
+- externalsecret_role.yaml
+- ingress.yaml
+- svc.yaml

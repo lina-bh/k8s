@@ -1,0 +1,88 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rarr-app
+  labels:
+    app.kubernetes.io/name: rarr
+spec:
+  replicas: 1
+  serviceName: rarr-app
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rarr
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: rarr
+    spec:
+      automountServiceAccountToken: false
+      containers:
+      - env:
+        - name: RADARR__AUTH__METHOD
+          value: External
+        - name: RADARR__LOG__DBENABLED
+          value: "false"
+        - name: RADARR__POSTGRES__HOST
+          valueFrom:
+            secretKeyRef:
+              name: pg-app
+              key: host
+        - name: RADARR__POSTGRES__MAINDB
+          value: rarr
+        - name: RADARR__POSTGRES__USER
+          valueFrom:
+            secretKeyRef:
+              name: rarr-role
+              key: username
+        - name: RADARR__POSTGRES__PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: rarr-role
+              key: password
+        - name: RADARR__AUTH__APIKEY
+          valueFrom:
+            secretKeyRef:
+              name: rarr-apikey
+              key: RADARR__AUTH__APIKEY
+        image: "ghcr.io/home-operations/radarr:7.0.2.10888@sha256:69ea515df6e2a3ea1490cfa127ffaaf9597a9db84fffa2fa150a6fae98fe04cb"
+        imagePullPolicy: IfNotPresent
+        name: app
+        ports:
+        - name: rarr
+          containerPort: 7878
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          seLinuxOptions:
+            level: s0
+          readOnlyRootFilesystem: true
+          runAsGroup: 995
+          runAsNonRoot: true
+          runAsUser: 961
+          seccompProfile:
+            type: RuntimeDefault
+        volumeMounts:
+        - mountPath: /config
+          name: config
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: rarr
+      hostUsers: true
+      securityContext:
+        fsGroup: 995
+        fsGroupChangePolicy: OnRootMismatch
+  volumeClaimTemplates:
+  - metadata:
+      name: config
+      labels:
+        app.kubernetes.io/name: rarr
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
