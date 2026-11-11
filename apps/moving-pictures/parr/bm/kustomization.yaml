@@ -1,0 +1,11 @@
+---
+resources:
+- ../base
+- pg.yaml
+patches:
+- path: dep.yaml
+configMapGenerator:
+- name: gluetun-overrides
+  behavior: merge
+  literals:
+  - FIREWALL_INPUT_PORTS=9999,9696,3333

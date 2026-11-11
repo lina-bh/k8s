@@ -2,26 +2,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    io.github.lina-bh/gluetun: enabled
-  labels:
-    app.kubernetes.io/name: bm
-  name: bm-app
+  name: parr-app
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: bm
-  # Each pod opens its own VPN connection; do not run two at once.
-  # Assisted-by: Claude Code:claude-opus-5-5
-  strategy:
-    type: Recreate
   template:
-    metadata:
-      labels:
-        app.kubernetes.io/name: bm
     spec:
-      automountServiceAccountToken: false
       containers:
       - args:
         - worker
@@ -38,10 +22,10 @@ spec:
               optional: false
         image: "ghcr.io/bitmagnet-io/bitmagnet:v0.10.1-beta.1@sha256:9673a7c74b8aaf3471e44425ee23a88eaad0b03892c06ace7210e8d33bab2117"
         imagePullPolicy: IfNotPresent
-        name: app
+        name: bm
         ports:
         - containerPort: 3333
-          name: http
+          name: bm
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:

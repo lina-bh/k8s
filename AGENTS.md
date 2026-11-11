@@ -47,8 +47,8 @@
   * `ks.yaml` holds the app's Flux `Kustomization` objects (see below).
   * `kustomization.yaml` sets `namespace: NAMESPACE` and lists `ks.yaml`.
   * `base/` holds the manifests, which omit `metadata.namespace`. Variants
-    sit beside it (`jfin/intel`, `generic-device-plugin/tun`, `zot/registry`)
-    and are chosen by the Kustomization's `path`.
+    sit beside it (`jfin/intel`, `generic-device-plugin/tun`, `zot/registry`,
+    `parr/bm`) and are chosen by the Kustomization's `path`.
   * Some bases contain their own Flux sources and Kustomizations, for example
     `apps/cnpg-system/cloudnative-pg/configs/base` and
     `apps/kube-system/intel-gpu-plugin/base`.
@@ -69,6 +69,14 @@
 * `apps/kustomization.yaml` lists `monitoring`. `clusters/melee` includes
   `../../apps`, which is how melee gets the `monitoring` namespace and
   `prometheus-operator-crds`.
+* bitmagnet (`bm`) runs inside Prowlarr's pod. The variant
+  `apps/moving-pictures/parr/bm` adds it to the `parr-app` Deployment as a
+  second container, along with its own `Cluster` `bm-pg`, and melee points
+  the `parr` Kustomization's `path` at it. bitmagnet has no Kustomization,
+  Service or Ingress of its own. Prowlarr's indexer for it is set in
+  Prowlarr, not in Git, to `http://localhost:3333/torznab`. The pod template
+  sets `kubectl.kubernetes.io/default-container: app`, so `kubectl logs` and
+  `kubectl exec` default to Prowlarr.
 * `components/gluetun/` is a Kustomize Component (see "gluetun").
 * `bin/wireguard-to-secret.py NAME PROVIDER < wg.conf` prints a gluetun
   Secret from a WireGuard config. `bin/wireguard-to-env.py < wg.conf` prints
@@ -186,6 +194,8 @@ spec:
     objects and prunes the old ones, and a renamed StatefulSet gets new PVCs
     from its `volumeClaimTemplates`. Existing apps SHOULD keep their style
     unless the rename is planned as a migration.
+  * `parr` is converted part-way: its objects are named explicitly
+    (`parr-app`, `parr-role`), but it still sets `labels`.
 * Settings repeated across containers are kept in a ConfigMap annotated
   `config.kubernetes.io/local-config: "true"` and copied in with kustomize
   `replacements`, for example in `apps/iv/iv/base` and
@@ -232,8 +242,8 @@ spec:
   restart a few times until the role's password exists and CloudNativePG has
   applied it (seen with `parr`).
 * Dedicated database: the app's base has its own `Cluster`, and the app
-  reads the operator's `CLUSTER-app` Secret (key `fqdn-uri`). `iv` (`iv-pg`)
-  and `miniflux` work this way.
+  reads the operator's `CLUSTER-app` Secret (key `fqdn-uri`). `iv` (`iv-pg`),
+  `miniflux` and bitmagnet (`bm-pg`) work this way.
 * Clusters run `instances: 1` with `enablePDB: false`, and take their image
   from `imageCatalogRef` to the `ClusterImageCatalog`
   `postgresql-minimal-trixie`, major 18. `miniflux` still sets `imageName`.
@@ -285,12 +295,20 @@ spec:
   optional. The sidecar loads it after `config.sh` and the `gluetun` Secret,
   and `envFrom` takes the last source's value, so a key set there replaces
   the default rather than adding to it.
+* The component's ConfigMaps take the app's `namePrefix`. An app without one
+  (`parr`) emits `gluetun-config-HASH`, and since every app shares
+  `config.sh`, a second app without a prefix in the same namespace would
+  emit and apply the same object.
 * gluetun's firewall accepts connections on the pod's network interface only
   to the ports in `FIREWALL_INPUT_PORTS`, so without them the app's Service
   and Ingress cannot reach it. `config.sh` sets `9999`, the health server
-  that the startup probe checks. Each app's `gluetun-overrides` sets
-  `9999,PORT` with its own container port (`bm`, `parr`, `qbt`), and has to
-  repeat `9999`.
+  that the startup probe checks. Each app's `gluetun-overrides` sets it to
+  `9999` followed by its containers' ports, and has to repeat `9999`:
+  `9999,8080` for `qbt`, and `9999,9696,3333` for `parr` with bitmagnet,
+  which `parr/bm` merges over the base's value.
+* gluetun accepts all traffic on `lo`, so containers in one pod reach each
+  other on `localhost` without `FIREWALL_INPUT_PORTS`, as Prowlarr reaches
+  bitmagnet.
 * Outbound traffic leaves through the VPN, except to melee's Service CIDR
   (`10.96.0.0/12`), which `config.sh` lists in `FIREWALL_OUTBOUND_SUBNETS`.
 * The pod keeps `dnsPolicy: ClusterFirst`, with `ndots:1`. gluetun (v3.41.0
@@ -362,9 +380,34 @@ CloudNativePG 1.30.1 and External Secrets v2.14.0:
 * When a Flux `Kustomization` takes over an object that already exists, for
   example one created by `kubectl apply`, it patches the object in place with
   server-side apply. It takes over the fields owned by any field manager whose
-  name starts with `kubectl`, so a field that only `kubectl` set and that is
-  missing from Git is removed. It also removes the
-  `kubectl.kubernetes.io/last-applied-configuration` annotation.
+  name starts with `kubectl`, and by `before-first-apply`, so a field that
+  only those set and that is missing from Git is removed. Fields owned by
+  other managers stay. The controller's `--override-manager` flag adds
+  managers to take over, and melee's kustomize-controller does not set it.
+  It also removes the `kubectl.kubernetes.io/last-applied-configuration`
+  annotation.
+* Deleting a `Kustomization`, for example by removing its `ks.yaml` from a
+  cluster, runs its finalizer. With the default `deletionPolicy`
+  (`MirrorPrune`) and `prune: true`, it deletes every object in its
+  inventory whose live labels still name it
+  (`kustomize.toolkit.fluxcd.io/name` and `namespace`), except objects
+  annotated `kustomize.toolkit.fluxcd.io/prune: disabled`. An object that
+  another Kustomization has applied since carries that one's labels and is
+  kept. A suspended Kustomization deletes nothing.
+  * The two reconciles run in no fixed order, so moving a stateful object to
+    another Kustomization needs the annotation first. CloudNativePG's PVCs
+    have an ownerReference to their `Cluster`, so deleting the `Cluster`
+    deletes its volumes.
+  * `bm-pg` on melee carries the annotation, set with
+    `kubectl annotate --field-manager flux-client-side-apply` when it moved
+    from the `bm` Kustomization to `parr`. It is not in Git, and Flux leaves
+    it in place because it does not take over that manager's fields. To
+    remove it:
+
+    ```sh
+    kubectl annotate -n moving-pictures cluster bm-pg \
+      kustomize.toolkit.fluxcd.io/prune-
+    ```
 * Flux deletes and recreates an object only when both of these hold:
   * the apply fails with an Invalid (422), Conflict or "immutable" error;
   * `spec.force: true` is set, or the object carries

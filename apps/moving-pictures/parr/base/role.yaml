@@ -2,7 +2,7 @@
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: role
+  name: parr-role
 spec:
   refreshPolicy: CreatedOnce
   dataFrom:
@@ -22,7 +22,7 @@ spec:
 apiVersion: postgresql.cnpg.io/v1
 kind: DatabaseRole
 metadata:
-  name: role
+  name: parr-role
 spec:
   name: parr
   login: true

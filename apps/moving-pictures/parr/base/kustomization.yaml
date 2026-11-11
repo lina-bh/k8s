@@ -5,7 +5,6 @@ labels:
 - includeSelectors: true
   pairs:
     app.kubernetes.io/name: parr
-namePrefix: parr-
 resources:
 - role.yaml
 - database_main.yaml

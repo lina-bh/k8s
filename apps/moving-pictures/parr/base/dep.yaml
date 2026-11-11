@@ -6,7 +6,7 @@ metadata:
     io.github.lina-bh/gluetun: enabled
   labels:
     app.kubernetes.io/component: app
-  name: app
+  name: parr-app
 spec:
   replicas: 1
   selector:
@@ -23,6 +23,8 @@ spec:
       maxUnavailable: 1
   template:
     metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: app
       labels:
         app.kubernetes.io/component: app
     spec:

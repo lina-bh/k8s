@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
-  name: db
+  name: parr-db
 spec:
   cluster:
     name: pg
