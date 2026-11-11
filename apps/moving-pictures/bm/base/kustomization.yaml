@@ -6,3 +6,7 @@ resources:
 - pg.yaml
 - svc.yaml
 - ingress.yaml
+configMapGenerator:
+- name: gluetun-overrides
+  literals:
+  - FIREWALL_INPUT_PORTS=9999,3333

@@ -13,3 +13,7 @@ resources:
 - svc.yaml
 - ingress.yaml
 - externalsecret_apikey.yaml
+configMapGenerator:
+- name: gluetun-overrides
+  literals:
+  - FIREWALL_INPUT_PORTS=9999,9696

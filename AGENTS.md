@@ -71,8 +71,9 @@
   `prometheus-operator-crds`.
 * `components/gluetun/` is a Kustomize Component (see "gluetun").
 * `bin/wireguard-to-secret.py NAME PROVIDER < wg.conf` prints a gluetun
-  Secret from a WireGuard config. `bin/wireguard-to-env.py` prints the same
-  keys as an env file.
+  Secret from a WireGuard config. `bin/wireguard-to-env.py < wg.conf` prints
+  the same keys as an env file, except `VPN_SERVICE_PROVIDER`, which it does
+  not take.
 
 ### Enabling and patching apps per cluster
 
@@ -281,10 +282,16 @@ spec:
   `base/kustomization.yaml`. It MAY generate a `gluetun-overrides` ConfigMap
   (for example `SERVER_REGIONS`, `FIREWALL_VPN_INPUT_PORTS`), as
   `apps/moving-pictures/qbt/base` does; the sidecar's reference to it is
-  optional.
-* gluetun's firewall accepts connections to the pod's own subnet, so the
-  app's Service and Ingress reach it without `FIREWALL_INPUT_PORTS`.
-  Outbound traffic leaves through the VPN, except to melee's Service CIDR
+  optional. The sidecar loads it after `config.sh` and the `gluetun` Secret,
+  and `envFrom` takes the last source's value, so a key set there replaces
+  the default rather than adding to it.
+* gluetun's firewall accepts connections on the pod's network interface only
+  to the ports in `FIREWALL_INPUT_PORTS`, so without them the app's Service
+  and Ingress cannot reach it. `config.sh` sets `9999`, the health server
+  that the startup probe checks. Each app's `gluetun-overrides` sets
+  `9999,PORT` with its own container port (`bm`, `parr`, `qbt`), and has to
+  repeat `9999`.
+* Outbound traffic leaves through the VPN, except to melee's Service CIDR
   (`10.96.0.0/12`), which `config.sh` lists in `FIREWALL_OUTBOUND_SUBNETS`.
 * The pod keeps `dnsPolicy: ClusterFirst`, with `ndots:1`. gluetun (v3.41.0
   and later) reads kube-dns from `/etc/resolv.conf` once, when its process
@@ -299,8 +306,9 @@ spec:
 * Renovate does not update the component's image pin: the `components/`
   pattern under `kubernetes` in `renovate.json` lacks its closing `/`, so
   Renovate treats it as a glob, which matches nothing.
-* The namespace needs the `gluetun` Secret with the WireGuard settings, which
-  the sidecars share. The sidecar requests `devic.es/tun` and adds
+* The namespace needs the `gluetun` Secret with `VPN_SERVICE_PROVIDER` and
+  the WireGuard settings, which the sidecars share. `config.sh` does not set
+  a provider. The sidecar requests `devic.es/tun` and adds
   `NET_ADMIN`, so the namespace has to enforce the `privileged` pod security
   level.
 
