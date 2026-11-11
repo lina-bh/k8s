@@ -5,6 +5,15 @@ metadata:
   name: app
 spec:
   replicas: 1
+  # The config PVC is ReadWriteOnce on OpenEBS LVM, which refuses to mount
+  # it into a second pod, so a surge pod never starts and the rollout
+  # stalls. Stop the old pod before starting the new one. Not Recreate, for
+  # the reason given in apps/moving-pictures/parr/base/dep.yaml.
+  # Assisted-by: Claude Code:claude-opus-5-5
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
   template:
     spec:
       automountServiceAccountToken: false
