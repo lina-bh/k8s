@@ -33,6 +33,12 @@ spec:
     ports:
     - port: 8989
   - to:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: rarr
+    ports:
+    - port: 7878
+  - to:
     - ipBlock:
         cidr: 0.0.0.0/0
     - ipBlock:

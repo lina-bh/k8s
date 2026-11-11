@@ -5,7 +5,7 @@ sonarr:
     api_key: !file /run/secrets/sarr-apikey/apikey
     delete_old_custom_formats: true
     quality_profiles:
-    - trash_id: &WEB-1080p-Alternative 9d142234e45d6143785ac55f5a9e8dc9
+    - trash_id: 9d142234e45d6143785ac55f5a9e8dc9 # WEB-1080p-Alternative
       upgrade:
         allowed: false
       reset_unmatched_scores:
@@ -27,3 +27,48 @@ sonarr:
         standard: default
         daily: default
         anime: default
+radarr:
+  rarr:
+    base_url: http://rarr-app
+    api_key: !file /run/secrets/rarr-apikey/apikey
+    delete_old_custom_formats: true
+    quality_profiles:
+    - trash_id: d1d67249d3890e49bc12e275d989a7e9 # HD BluRay + WEB
+      upgrade:
+        allowed: false
+      reset_unmatched_scores:
+        enabled: true
+      qualities:
+      - name: Bluray-1080p
+      - name: WEB 1080p
+        qualities:
+        - WEBRip-1080p
+        - WEBDL-1080p
+      - name: HDTV-1080p
+      - name: Bluray-720p
+      - name: WEB 720p
+        qualities:
+        - WEBRip-720p
+        - WEBDL-720p
+      - name: HDTV-720p
+      - name: Bluray-576p
+      - name: Bluray-480p
+      - name: WEB 480p
+        qualities:
+        - WEBRip-480p
+        - WEBDL-480p
+      - name: DVD
+      - name: SDTV
+    custom_format_groups:
+      add:
+      - trash_id: f8bf8eab4617f12dfdbd16303d8da245 # [Optional] Golden Rule HD
+        exclude:
+        - dc98083864ea246d05a42df0d05f81cc # x265 (HD)
+      - trash_id: a3ac6af01d78e4f21fcb75f601ac96df # [Unwanted] Unwanted Formats
+        exclude:
+        - cae4ca30163749b891686f95532519bd # AV1
+    media_naming:
+      folder: default
+      movie:
+        rename: true
+        standard: standard

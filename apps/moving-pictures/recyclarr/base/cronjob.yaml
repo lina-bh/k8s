@@ -44,6 +44,8 @@ spec:
               mountPath: /tmp
             - name: sarr-apikey
               mountPath: /run/secrets/sarr-apikey
+            - name: rarr-apikey
+              mountPath: /run/secrets/rarr-apikey
           hostUsers: false
           restartPolicy: Never
           securityContext:
@@ -64,5 +66,11 @@ spec:
               secretName: sarr-apikey
               items:
               - key: apikey
+                path: apikey
+          - name: rarr-apikey
+            secret:
+              secretName: rarr-apikey
+              items:
+              - key: RADARR__AUTH__APIKEY
                 path: apikey
   schedule: 0 0 * * 1
