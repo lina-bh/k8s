@@ -29,6 +29,10 @@ spec:
                 mountPath: /media/tv
                 subPath: tv
                 readOnly: true
+              - name: media
+                mountPath: /media/film
+                subPath: film
+                readOnly: true
             volumes:
             - name: media
               persistentVolumeClaim:
