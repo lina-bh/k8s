@@ -95,13 +95,13 @@ url = "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/
 url_api = "https://api.github.com/repos/kubernetes-sigs/kustomize/releases/assets/621661332"
 
 [[tools.node]]
-version = "24.22.3"
+version = "26.13.1"
 backend = "core:node"
-specifiers = ["24.22.3"]
+specifiers = ["26.13.1"]
 
 [tools.node."platforms.linux-x64"]
-checksum = "sha256:061ec3e3062115705b56b51fa9cc330ab50d34b6969387d4e4b1a50c6809acc2"
-url = "https://nodejs.org/dist/v24.22.3/node-v24.22.3-linux-x64.tar.gz"
+checksum = "sha256:518674de2b621728a5e4486f5fb3b7d2900bb3cc4aa97969edaa463db99f9778"
+url = "https://nodejs.org/dist/v26.13.1/node-v26.13.1-linux-x64.tar.gz"
 
 [[tools."npm:renovate"]]
 version = "44.239.1"
