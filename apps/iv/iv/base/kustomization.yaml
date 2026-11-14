@@ -12,7 +12,7 @@ resources:
 images:
 - name: invidious
   newName: quay.io/invidious/invidious
-  newTag: "latest@sha256:ba09cf7b5c749472c3ccc814e6d3efe929243952077ae4dfd7d77ef74fbc9ec5"
+  newTag: "latest@sha256:181ef408b7c3f8197c2462ec951e164a4665ea70601fad8e94eae11f8f42e78d"
 configMapGenerator:
 - name: iv-cfg
   files:
