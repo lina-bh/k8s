@@ -5,7 +5,7 @@ lockfile_version = 4
 [[tools."aqua:home-operations/flate"]]
 version = "0.6.5"
 backend = "aqua:home-operations/flate"
-specifiers = ["0.6"]
+specifiers = ["0.6.5"]
 
 [tools."aqua:home-operations/flate"."platforms.linux-x64"]
 checksum = "sha256:37eb0cd91a6752340754375743aa616c263cd8367ce594abd42ee955e1ec0099"
@@ -16,32 +16,21 @@ provenance = "cosign"
 [[tools.flux2]]
 version = "2.10.0"
 backend = "aqua:fluxcd/flux2"
-specifiers = ["2.10"]
+specifiers = ["2.10.0"]
 
 [tools.flux2."platforms.linux-x64"]
 checksum = "sha256:208dd7012c04fedeed5b2d0b6e63df3b15b1c34a381527811685c098bc9f8659"
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.0/flux_2.10.0_linux_amd64.tar.gz"
 url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/678609567"
 
-[[tools.gh]]
-version = "2.103.3"
-backend = "aqua:cli/cli"
-specifiers = ["latest"]
-
-[tools.gh."platforms.linux-x64"]
-checksum = "sha256:4c806978ffce1cec70853302a56d70ac6da4f19bae7adca4e1a8ab00633dd91d"
-url = "https://github.com/cli/cli/releases/download/v2.103.3/gh_2.103.3_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/cli/cli/releases/assets/679195621"
-provenance = "github-attestations"
-
 [[tools.helm]]
-version = "4.3.1"
+version = "4.3.2"
 backend = "aqua:helm/helm"
-specifiers = ["latest"]
+specifiers = ["4.3.2"]
 
 [tools.helm."platforms.linux-x64"]
-checksum = "sha256:0403a88ae20913d11b10a2467b50087721fea7581736da6b9d3992f5357fe54b"
-url = "https://get.helm.sh/helm-v4.3.1-linux-amd64.tar.gz"
+checksum = "sha256:d1c0278d46beab79582d7e50f5b3dc206944ba8e577cde618513fd07daa53983"
+url = "https://get.helm.sh/helm-v4.3.2-linux-amd64.tar.gz"
 
 [[tools.helm-diff]]
 version = "3.15.15"
@@ -56,7 +45,7 @@ url_api = "https://api.github.com/repos/databus23/helm-diff/releases/assets/5897
 [[tools.just]]
 version = "1.59.0"
 backend = "aqua:casey/just"
-specifiers = ["latest"]
+specifiers = ["1.59.0"]
 
 [tools.just."platforms.linux-x64"]
 checksum = "sha256:409044617b6f06517c1035e55ca38c8c856ff8b650e41bc2aa1ef82d5903a23e"
@@ -67,7 +56,7 @@ url_api = "https://api.github.com/repos/casey/just/releases/assets/642949555"
 [[tools.kube-linter]]
 version = "0.8.3"
 backend = "aqua:stackrox/kube-linter"
-specifiers = ["latest"]
+specifiers = ["0.8.3"]
 
 [tools.kube-linter."platforms.linux-x64"]
 checksum = "sha256:618d299a3e2839c8ca9d86fce0db617be0fba41f0fecbbbfb7fbf1c04299fae1"
@@ -78,7 +67,7 @@ provenance = "cosign"
 [[tools.kubeconform]]
 version = "0.8.0"
 backend = "aqua:yannh/kubeconform"
-specifiers = ["latest"]
+specifiers = ["0.8.0"]
 
 [tools.kubeconform."platforms.linux-x64"]
 checksum = "sha256:9bc2bffbf71f261128533edaf912153948b7ff238f9a531ae6d34466ec287883"
@@ -98,7 +87,7 @@ url = "https://dl.k8s.io/v1.37.2/bin/linux/amd64/kubectl"
 [[tools.kustomize]]
 version = "5.8.3"
 backend = "aqua:kubernetes-sigs/kustomize"
-specifiers = ["latest"]
+specifiers = ["5.8.3"]
 
 [tools.kustomize."platforms.linux-x64"]
 checksum = "sha256:cb9e31198d3f63b44848bd0afc4c8efc56e6cfef9c93a4a39a211940e6decd61"
@@ -106,19 +95,22 @@ url = "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/
 url_api = "https://api.github.com/repos/kubernetes-sigs/kustomize/releases/assets/621661332"
 
 [[tools.node]]
-version = "24.22.2"
+version = "24.22.3"
 backend = "core:node"
-specifiers = ["24"]
+specifiers = ["24.22.3"]
 
 [tools.node."platforms.linux-x64"]
-checksum = "sha256:361718c444e49af2ca5a110c83ba6a8901143f23ab285ebbef0341f391f482a9"
-url = "https://nodejs.org/dist/v24.22.2/node-v24.22.2-linux-x64.tar.gz"
+checksum = "sha256:061ec3e3062115705b56b51fa9cc330ab50d34b6969387d4e4b1a50c6809acc2"
+url = "https://nodejs.org/dist/v24.22.3/node-v24.22.3-linux-x64.tar.gz"
 
 [[tools."npm:renovate"]]
-version = "44.222.0"
-aube = { path = ".mise/locks/npm-renovate/44.222.0~aa673d8d", digest = "sha256:ddfc1660cbc495dee9f06452c3c675bbb9fe37dbd341f11515262d6c75a1859d" }
+version = "44.239.1"
+aube = { path = ".mise/locks/npm-renovate/44.239.1~aa673d8d", digest = "sha256:324c7eebb7e5441c844a6e64971e94f9799484b9338cd8ab233e8ab613a5c594" }
 backend = "npm:renovate"
-specifiers = ["44.222.0"]
+specifiers = ["44.239.1"]
 
 [tools."npm:renovate".options]
 trust_policy_excludes = '["@yarnpkg/libzip@3.2.2"]'
+
+[tools."npm:renovate".provenance]
+repository = "github.com/renovatebot/renovate"
