@@ -43,29 +43,12 @@
 
 ### Apps
 
-* Each app lives in `apps/NAMESPACE/APP/`:
-  * `ks.yaml` holds the app's Flux `Kustomization` objects (see below).
-  * `kustomization.yaml` sets `namespace: NAMESPACE` and lists `ks.yaml`.
-  * `base/` holds the manifests, which omit `metadata.namespace`. Variants
-    sit beside it (`jfin/intel`, `generic-device-plugin/tun`, `zot/registry`,
-    `parr/bm`) and are chosen by the Kustomization's `path`.
-  * Some bases contain their own Flux sources and Kustomizations, for example
-    `apps/cnpg-system/cloudnative-pg/configs/base` and
-    `apps/kube-system/intel-gpu-plugin/base`.
 * `apps/NAMESPACE/` holds `namespace.yaml` and a `kustomization.yaml` that
   lists it.
   * Every Namespace carries `kustomize.toolkit.fluxcd.io/prune: disabled`, so
     removing it from Git does not delete it or its contents.
   * Namespaces whose pods need extra privileges set
     `pod-security.kubernetes.io/enforce: privileged`.
-  * In namespaces that hold a single operator (`external-secrets`,
-    `longhorn-system`, `local-path-storage`, `monitoring`, `openebs`,
-    `tailscale`, and `cnpg-system` through `cloudnative-pg/`), this
-    `kustomization.yaml` also lists the operator's `ks.yaml`, so including
-    `apps/NAMESPACE` deploys both. Those operators have no app-level
-    `kustomization.yaml`.
-  * In other namespaces it lists only `namespace.yaml`, and each app is
-    enabled separately. `apps/kube-system/` has no namespace-level files.
 * `apps/kustomization.yaml` lists `monitoring`. `clusters/melee` includes
   `../../apps`, which is how melee gets the `monitoring` namespace and
   `prometheus-operator-crds`.
@@ -107,28 +90,6 @@
   and shared PVCs (`clusters/melee/moving-pictures/media.yaml`).
 
 ## Flux Kustomizations (`ks.yaml`)
-
-Most follow this template:
-
-```yaml
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: APP
-spec:
-  dependsOn: []
-  interval: 1h
-  path: ./apps/NAMESPACE/APP/base
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    namespace: flux-system
-    name: flux-system
-  targetNamespace: NAMESPACE
-  timeout: 15m
-  wait: true
-```
 
 * The Kustomization object lives in the app's namespace, so a `dependsOn`
   entry for a Kustomization in another namespace needs `namespace:`.
