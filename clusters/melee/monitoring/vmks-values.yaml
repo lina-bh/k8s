@@ -1,0 +1,30 @@
+---
+global:
+  clusterLabel: melee
+vmalert:
+  enabled: false
+alertmanager:
+  enabled: false
+grafana:
+  enabled: false
+defaultDashboards:
+  enabled: false
+defaultRules:
+  enabled: false
+syncJob:
+  enabled: false
+victoria-metrics-operator:
+  serviceMonitor:
+    enabled: false
+kubeEtcd:
+  enabled: false
+coreDns:
+  enabled: false
+# vlsingle:
+#   enabled: true
+#   spec:
+#     retentionPeriod: 24h
+vmsingle:
+  spec:
+    retentionPeriod: "24h"
+    storage: null

@@ -1,0 +1,14 @@
+---
+namespace: monitoring
+resources:
+- ../../../apps/monitoring/victoria-metrics-k8s-stack
+configMapGenerator:
+- name: vmks-values
+  files:
+  - values.yaml=vmks-values.yaml
+  options:
+    disableNameSuffixHash: true
+    labels:
+      reconcile.fluxcd.io/watch: Enabled
+patches:
+- path: vmks.yaml
