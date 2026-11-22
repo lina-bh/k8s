@@ -45,7 +45,8 @@
         "ghcr.io/victoriametrics/helm-charts/victoria-metrics-k8s-stack",
         "ghcr.io/project-zot/helm-charts/zot",
         "ghcr.io/home-operations/radarr",
-        "ghcr.io/cloudnative-pg/charts/cloudnative-pg"
+        "ghcr.io/cloudnative-pg/charts/cloudnative-pg",
+        "quay.io/cilium/charts/cilium"
       ],
       "matchUpdateTypes": [
         "patch"
