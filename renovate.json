@@ -43,7 +43,9 @@
         "ghcr.io/prometheus-community/charts/prometheus-operator-crds",
         "ghcr.io/recyclarr/recyclarr",
         "ghcr.io/victoriametrics/helm-charts/victoria-metrics-k8s-stack",
-        "ghcr.io/project-zot/helm-charts/zot"
+        "ghcr.io/project-zot/helm-charts/zot",
+        "ghcr.io/home-operations/radarr",
+        "ghcr.io/cloudnative-pg/charts/cloudnative-pg"
       ],
       "matchUpdateTypes": [
         "patch"
@@ -55,7 +57,8 @@
         "docker"
       ],
       "matchPackageNames": [
-        "ghcr.io/external-secrets/charts/external-secrets"
+        "ghcr.io/external-secrets/charts/external-secrets",
+        "ghcr.io/autobrr/qui"
       ],
       "matchUpdateTypes": [
         "minor",
@@ -111,6 +114,10 @@
         "kubernetes-sigs/kube-network-policies",
         "registry.k8s.io/networking/kube-network-policies"
       ]
+    },
+    {
+      "groupName": "flux",
+      "matchDepNames": ["fluxcd/flux2", "flux2"]
     }
   ],
   "prConcurrentLimit": 0,
