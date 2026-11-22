@@ -120,6 +120,11 @@
       "matchDepNames": ["fluxcd/flux2", "flux2"]
     },
     {
+      "matchDepNames": ["fluxcd/flux2", "flux2"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
+    },
+    {
       "matchManagers": ["mise"],
       "matchDepNames": [
         "npm:renovate"
