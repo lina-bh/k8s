@@ -3,5 +3,6 @@
 .env.local
 .talos/
 terraform.tfstate*
-.claude/
+.claude/*
+!/.claude/settings.json
 TODO.md

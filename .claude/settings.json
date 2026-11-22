@@ -1,0 +1,37 @@
+{
+  "enabledMcpjsonServers": [
+    "kubernetes-mcp-server",
+    "renovate",
+    "grafana"
+  ],
+  "permissions": {
+    "deny": [
+      "Bash(kubectl get *)",
+      "Bash(kubectl -* get *)",
+      "Bash(kubectl logs *)",
+      "Bash(kubectl -* logs *)",
+      "Bash(kubectl exec *)",
+      "Bash(kubectl -* exec *)",
+      "Bash(kubectl run *)",
+      "Bash(kubectl -* run *)",
+      "Bash(kubectl top *)",
+      "Bash(kubectl -* top *)",
+      "Bash(kubectl delete *)",
+      "Bash(kubectl -* delete *)",
+      "Bash(kubectl scale *)",
+      "Bash(kubectl -* scale *)",
+      "Bash(kubectl apply *)",
+      "Bash(kubectl -* apply *)",
+      "Bash(kubectl events *)",
+      "Bash(kubectl -* events *)",
+      "Bash(kubectl api-resources *)",
+      "Bash(kubectl -* api-resources *)",
+      "Bash(kubectl config view *)",
+      "Bash(kubectl -* config view *)",
+      "Bash(kubectl config get-contexts *)",
+      "Bash(kubectl -* config get-contexts *)",
+      "Bash(kubectl config current-context *)",
+      "Bash(kubectl -* config current-context *)"
+    ]
+  }
+}

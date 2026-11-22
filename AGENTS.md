@@ -297,6 +297,26 @@
   sandbox with access to `~/.kube`. Other commands that talk to a cluster
   (`flux`, `helm`) need `~/.kube/config`, which the sandbox cannot read, so
   the user has to run them.
+* Agents SHOULD use the `kubernetes-mcp-server` MCP server before shelling
+  out to `kubectl`. `.claude/settings.json` denies the `kubectl`
+  subcommands that an MCP tool covers, with or without global flags such as
+  `-n` or `--context` before them, so those commands fail:
+  * `get` (`resources_get`, `resources_list`, `pods_get`, `pods_list`,
+    `namespaces_list`);
+  * `logs` (`pods_log`), `exec` (`pods_exec`), `run` (`pods_run`) and `top`
+    (`pods_top`, `nodes_top`);
+  * `apply` (`resources_create_or_update`), `delete` (`resources_delete`,
+    `pods_delete`) and `scale` (`resources_scale`);
+  * `events` (`events_list`) and `api-resources` (`api_resources_list`);
+  * `config view` (`configuration_view`), and `config get-contexts` and
+    `config current-context` (`configuration_contexts_list`).
+
+  The MCP tools take a `context` argument, which defaults to `melee`; OKE
+  needs `oke`. Subcommands with no MCP tool, such as `describe`, `annotate`,
+  `rollout` and `kustomize`, still go through `kubectl`.
+* `resources_get` omits `metadata.managedFields`, and
+  `kubectl get --show-managed-fields` is denied, so the user has to run the
+  latter to see which manager owns a field.
 * `just reconcile` runs `git push origin main` before reconciling. Agents
   MUST NOT run it.
 * Tools come from `mise.toml`; `yamlfmt` is installed separately.
@@ -367,7 +387,8 @@ CloudNativePG 1.30.1 and External Secrets v2.14.0:
     `kubectl` nor `before-first-apply`, so the annotation stays. `bm-pg`'s
     annotation was set this way on 2026-11-11 and was still there after
     `parr`'s later reconciles. `kubectl get --show-managed-fields` shows
-    which manager owns a field.
+    which manager owns a field; agents cannot run it (see "Checking
+    changes").
   * Objects on melee that carry the annotation this way (not in Git):
     * `bm-pg` (`Cluster`), from its move from the `bm` Kustomization to
       `parr`;
