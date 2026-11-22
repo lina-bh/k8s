@@ -118,6 +118,16 @@
     {
       "groupName": "flux",
       "matchDepNames": ["fluxcd/flux2", "flux2"]
+    },
+    {
+      "matchManagers": ["mise"],
+      "matchDepNames": [
+        "npm:renovate"
+      ],
+      "matchUpdateTypes": [
+        "minor", "patch"
+      ],
+      "automerge": true
     }
   ],
   "prConcurrentLimit": 0,
