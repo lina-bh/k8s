@@ -3,14 +3,14 @@
 lockfile_version = 4
 
 [[tools."aqua:home-operations/flate"]]
-version = "0.6.5"
+version = "0.8.0"
 backend = "aqua:home-operations/flate"
-specifiers = ["0.6.5"]
+specifiers = ["0.8.0"]
 
 [tools."aqua:home-operations/flate"."platforms.linux-x64"]
-checksum = "sha256:37eb0cd91a6752340754375743aa616c263cd8367ce594abd42ee955e1ec0099"
-url = "https://github.com/home-operations/flate/releases/download/v0.6.5/flate_0.6.5_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/541337294"
+checksum = "sha256:76940fb6ff060e09a40e1a835fc9c5cd24e18fdd29e4e79382852821e0ac01c2"
+url = "https://github.com/home-operations/flate/releases/download/v0.8.0/flate_0.8.0_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/768879874"
 provenance = "cosign"
 
 [[tools.flux2]]
