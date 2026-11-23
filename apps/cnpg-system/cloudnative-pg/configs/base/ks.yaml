@@ -7,7 +7,7 @@ spec:
   interval: 24h
   ref:
     branch: main
-    commit: 0d62cf15573106064def6c0efa2b7f37e712493f
+    commit: 0561523283e43de87e719f6d15e6d41dcd7f8028
   url: https://github.com/cloudnative-pg/artifacts.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
