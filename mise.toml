@@ -9,7 +9,7 @@ FLATE_CACHE_DIR = "${HOME}/.cache/flate"
 file = [".env.local"]
 
 [tools]
-kubectl = "1.37.2"
+kubectl = "1.37.3"
 flux2 = "2.10.1"
 kubeconform = "0.8.0"
 kube-linter = "0.8.3"
