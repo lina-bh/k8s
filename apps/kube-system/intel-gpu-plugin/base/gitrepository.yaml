@@ -6,5 +6,5 @@ metadata:
 spec:
   interval: 24h
   ref:
-    tag: v0.37.1
+    tag: v0.37.2
   url: https://github.com/intel/intel-device-plugins-for-kubernetes.git
